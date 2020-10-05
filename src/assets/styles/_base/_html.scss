@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  @include font(one);
+
+  overflow-y: scroll;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+
+body {}

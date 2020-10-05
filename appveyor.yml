@@ -1,0 +1,17 @@
+environment:
+  matrix:
+    - nodejs_version: '14'
+    - nodejs_version: '12'
+platform:
+    - x86
+    - x64
+clone_depth: 1
+init:
+    - git config --global core.autocrlf true
+    - ps: Install-Product node $env:nodejs_version $env:platform
+install:
+    - ps: Add-Content .npmrc "//npm.pkg.github.com/:_authToken=$($env:APPVEYOR_READ_PACKAGES)"
+    - cmd: npm ci
+build: off
+test_script:
+  - npm test # Defined in the package.json (scripts > test)

@@ -1,0 +1,28 @@
+extends ../base.pug
+
+block variables
+  - var title = meta.title;
+  - var description = meta.description;
+  - var keywords = meta.keywords;
+  - var htmlClass = 'template--front';
+
+append scripts
+  script(src=root+"assets/js/front.bundle.js?RANDOMIZE-ME", defer)
+
+append styles
+  link(href=root+"assets/css/front.bundle.css?RANDOMIZE-ME", rel="stylesheet")
+  link(href=root+"assets/css/front.bundle-40.css?RANDOMIZE-ME", rel="stylesheet", media="(min-width: 40rem)")
+  link(href=root+"assets/css/front.bundle-60.css?RANDOMIZE-ME", rel="stylesheet", media="(min-width: 60rem)")
+  link(href=root+"assets/css/front.bundle-80.css?RANDOMIZE-ME", rel="stylesheet", media="(min-width: 80rem)")
+
+
+block content
+  //- Content
+  include ../modules/header.pug
+
+  main.main
+    a(href="./test-1") Test 1
+
+  include ../modules/footer.pug
+
+  //- Content end
