@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     global: './src/assets/scripts/global.bundle.js',
     front: './src/assets/scripts/front.bundle.js',
-    'test-1': './src/assets/scripts/test-1.bundle.js',
+    'curved-line': './src/assets/scripts/curved-line.bundle.js',
   },
   output: {
     filename: '[name].bundle.js',
