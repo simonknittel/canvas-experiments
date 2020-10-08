@@ -7,7 +7,8 @@ import RotatingBox from './rotating-box.js'
 class AnimatedBackground1 {
   constructor(container) {
     this.container = container
-    this.canvas = this.container.querySelector('canvas')
+    this.canvas = this.container.querySelector('#animated-background-1')
+    if (!this.canvas) return
 
     /** @type {CanvasRenderingContext2D} */
     this.ctx = this.canvas.getContext('2d')
@@ -23,12 +24,12 @@ class AnimatedBackground1 {
     const preset1 = {
       animation: {
         play: true,
-        msPerRotation: 1000
+        msPerRotation: 1000,
       },
       background: {
         top: '#0028ad',
-        bottom: '#ffc875'
-      }
+        bottom: '#ffc875',
+      },
     }
 
     this.settings = preset1

@@ -6,6 +6,7 @@ class Test1 {
   constructor(container) {
     this.container = container
     this.canvas = this.container.querySelector('canvas')
+    if (!this.canvas) return
 
     /** @type {CanvasRenderingContext2D} */
     this.ctx = this.canvas.getContext('2d')
