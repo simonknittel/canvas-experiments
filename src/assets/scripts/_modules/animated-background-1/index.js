@@ -50,8 +50,8 @@ class AnimatedBackground1 {
     this.prevTime = new Date().getTime()
 
     this.elements = [
-      new RotatingBox(this.ctx, { x: this.canvas.width + 200, y: 100, moveToX: -200, moveToY: 100, msPerRotation: 0.0005 }),
-      new RotatingBox(this.ctx, { x: this.canvas.width + 400, y: 50, moveToX: -200, moveToY: 50, msPerRotation: 0.01 }),
+      new RotatingBox(this.ctx, { x: this.canvas.width + 200, y: 100, moveToX: -200, moveToY: 100, msPerRotation: 0.0005, moveInMs: 1000 }),
+      new RotatingBox(this.ctx, { x: this.canvas.width + 400, y: 50, moveToX: -200, moveToY: 50, msPerRotation: 0.01, moveInMs: 2000 }),
       new RotatingBox(this.ctx, { x: 100, y: -100, moveToX: this.canvas.width - 100, moveToY: this.canvas.height + 100, msPerRotation: 0.01 }),
     ]
 

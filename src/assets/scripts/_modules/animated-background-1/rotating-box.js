@@ -12,6 +12,7 @@ export default class RotatingBox {
     this.height = settings.height || 100
     this.msPerRotation = settings.msPerRotation || 0.001,
     this.fillStyle = settings.fillStyle || '#f00'
+    this.moveInMs = settings.moveInMs || 5000
 
     this.rotation = 0
 
@@ -36,12 +37,12 @@ export default class RotatingBox {
     this.ctx.restore()
   }
 
-  translate() {
+  translate(timeDelta) {
     if (this.moveToX) {
       if (this.moveToX > this.originalX) {
         const xDistance = this.moveToX - this.originalX
-        const xSpeed = xDistance / 1000
-        this.x += xSpeed // TODO: Get timeDelta involved xSpeed / 1000 * timeDelta
+        const xSpeed = xDistance / this.moveInMs * timeDelta
+        this.x += xSpeed
 
         if (this.x > this.moveToX) {
           this.x = this.originalX
@@ -49,8 +50,8 @@ export default class RotatingBox {
         }
       } else if (this.moveToX < this.originalX) {
         const xDistance = this.originalX - this.moveToX
-        const xSpeed = xDistance / 1000
-        this.x -= xSpeed // TODO: Get timeDelta involved
+        const xSpeed = xDistance / this.moveInMs * timeDelta
+        this.x -= xSpeed
 
         if (this.x < this.moveToX) {
           this.x = this.originalX
@@ -60,12 +61,12 @@ export default class RotatingBox {
 
       if (this.moveToY > this.originalY) {
         const yDistance = this.moveToY - this.originalY
-        const ySpeed = yDistance / 1000
-        this.y += ySpeed // TODO: Get timeDelta involved
+        const ySpeed = yDistance / this.moveInMs * timeDelta
+        this.y += ySpeed
       } else if (this.moveToY < this.originalY) {
         const yDistance = this.originalY - this.moveToY
-        const ySpeed = yDistance / 1000
-        this.y -= ySpeed // TODO: Get timeDelta involved
+        const ySpeed = yDistance / this.moveInMs * timeDelta
+        this.y -= ySpeed
       }
     }
 
