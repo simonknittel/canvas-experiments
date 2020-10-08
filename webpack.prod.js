@@ -5,8 +5,6 @@ module.exports = {
   mode: 'production',
   entry: {
     global: './src/assets/scripts/global.bundle.js',
-    front: './src/assets/scripts/front.bundle.js',
-    'curved-line': './src/assets/scripts/curved-line.bundle.js',
   },
   output: {
     filename: '[name].bundle.js',

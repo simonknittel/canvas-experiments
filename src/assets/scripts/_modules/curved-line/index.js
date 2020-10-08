@@ -2,7 +2,7 @@ import throttle from 'lodash/throttle'
 
 /* eslint-disable require-jsdoc, object-property-newline */
 
-class Test1 {
+class CurvedLine {
   constructor(container) {
     this.container = container
     this.canvas = this.container.querySelector('canvas')
@@ -63,4 +63,4 @@ class Test1 {
   }
 }
 
-new Test1(document)
+new CurvedLine(document)

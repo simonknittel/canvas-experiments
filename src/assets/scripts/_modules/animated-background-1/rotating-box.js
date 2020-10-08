@@ -36,20 +36,37 @@ export default class RotatingBox {
     this.ctx.restore()
   }
 
-  translate(timeDelta) {
+  translate() {
     if (this.moveToX) {
       if (this.moveToX > this.originalX) {
-        this.x += timeDelta / 2
-        if (this.x >= this.moveToX) this.x = this.originalX
-      } else {
-        this.x -= timeDelta / 2
-        if (this.x <= this.moveToX) this.x = this.originalX
-      }
-    }
+        const xDistance = this.moveToX - this.originalX
+        const xSpeed = xDistance / 1000
+        this.x += xSpeed // TODO: Get timeDelta involved xSpeed / 1000 * timeDelta
 
-    if (this.moveToY) {
-      this.y += timeDelta / 2
-      if (this.y >= this.moveToY) this.y = this.originalY
+        if (this.x > this.moveToX) {
+          this.x = this.originalX
+          this.y = this.originalY
+        }
+      } else if (this.moveToX < this.originalX) {
+        const xDistance = this.originalX - this.moveToX
+        const xSpeed = xDistance / 1000
+        this.x -= xSpeed // TODO: Get timeDelta involved
+
+        if (this.x < this.moveToX) {
+          this.x = this.originalX
+          this.y = this.originalY
+        }
+      }
+
+      if (this.moveToY > this.originalY) {
+        const yDistance = this.moveToY - this.originalY
+        const ySpeed = yDistance / 1000
+        this.y += ySpeed // TODO: Get timeDelta involved
+      } else if (this.moveToY < this.originalY) {
+        const yDistance = this.originalY - this.moveToY
+        const ySpeed = yDistance / 1000
+        this.y -= ySpeed // TODO: Get timeDelta involved
+      }
     }
 
     this.ctx.translate(

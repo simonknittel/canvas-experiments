@@ -7,7 +7,7 @@ import RotatingBox from './rotating-box.js'
 class AnimatedBackground1 {
   constructor(container) {
     this.container = container
-    this.canvas = this.container.querySelector('#animated-background-1')
+    this.canvas = this.container.querySelector('canvas')
     if (!this.canvas) return
 
     /** @type {CanvasRenderingContext2D} */
@@ -50,12 +50,13 @@ class AnimatedBackground1 {
     this.prevTime = new Date().getTime()
 
     this.elements = [
-      new RotatingBox(this.ctx, { x: this.canvas.width + 200, y: 100, moveToX: -200, msPerRotation: 0.0005 }),
-      new RotatingBox(this.ctx, { x: this.canvas.width + 400, y: 50, moveToX: -200, msPerRotation: 0.01 }),
+      new RotatingBox(this.ctx, { x: this.canvas.width + 200, y: 100, moveToX: -200, moveToY: 100, msPerRotation: 0.0005 }),
+      new RotatingBox(this.ctx, { x: this.canvas.width + 400, y: 50, moveToX: -200, moveToY: 50, msPerRotation: 0.01 }),
       new RotatingBox(this.ctx, { x: 100, y: -100, moveToX: this.canvas.width - 100, moveToY: this.canvas.height + 100, msPerRotation: 0.01 }),
     ]
 
-    window.requestAnimationFrame(this.drawLoop.bind(this))
+    if (this.animationFrame) window.cancelAnimationFrame(this.animationFrame)
+    this.animationFrame = window.requestAnimationFrame(this.drawLoop.bind(this))
   }
 
   drawLoop() {
@@ -69,7 +70,7 @@ class AnimatedBackground1 {
     this.prevTime = now
 
     if (!this.settings.animation.play) return
-    window.requestAnimationFrame(this.drawLoop.bind(this))
+    this.animationFrame = window.requestAnimationFrame(this.drawLoop.bind(this))
   }
 
   drawBackground() {
