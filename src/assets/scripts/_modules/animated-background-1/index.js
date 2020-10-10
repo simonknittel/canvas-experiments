@@ -1,6 +1,8 @@
 import throttle from 'lodash/throttle'
 
-import RotatingBox from './rotating-box.js'
+import Box from './box.js'
+import Rotating from './rotating.js'
+import Translate from './translate.js'
 
 /* eslint-disable require-jsdoc, object-property-newline */
 
@@ -24,7 +26,6 @@ class AnimatedBackground1 {
     const preset1 = {
       animation: {
         play: true,
-        msPerRotation: 1000,
       },
       background: {
         top: '#0028ad',
@@ -50,9 +51,43 @@ class AnimatedBackground1 {
     this.prevTime = new Date().getTime()
 
     this.elements = [
-      new RotatingBox(this.ctx, { x: this.canvas.width + 200, y: 100, moveToX: -200, moveToY: 100, msPerRotation: 0.0005, moveInMs: 1000 }),
-      new RotatingBox(this.ctx, { x: this.canvas.width + 400, y: 50, moveToX: -200, moveToY: 50, msPerRotation: 0.01, moveInMs: 2000 }),
-      new RotatingBox(this.ctx, { x: 100, y: -100, moveToX: this.canvas.width - 100, moveToY: this.canvas.height + 100, msPerRotation: 0.01 }),
+      new Translate(this.ctx, {
+        content: new Rotating(this.ctx, {
+          content: new Box(this.ctx, { width: 100, height: 100 }),
+          rotationOrigin: [50, 50],
+          msPerRotation: 0.0005,
+        }),
+        x: this.canvas.width + 200,
+        y: 100,
+        moveToX: -200,
+        moveToY: 100,
+        moveInMs: 1000,
+      }),
+
+      new Translate(this.ctx, {
+        content: new Rotating(this.ctx, {
+          content: new Box(this.ctx, { width: 200, height: 100 }),
+          rotationOrigin: [100, 50],
+          msPerRotation: 0.0005,
+        }),
+        x: this.canvas.width + 400,
+        y: 50,
+        moveToX: -200,
+        moveToY: 50,
+        moveInMs: 2000,
+      }),
+
+      new Translate(this.ctx, {
+        content: new Rotating(this.ctx, {
+          content: new Box(this.ctx, { width: 300, height: 300 }),
+          rotationOrigin: [150, 150],
+          msPerRotation: 0.01,
+        }),
+        x: 100,
+        y: -100,
+        moveToX: this.canvas.width - 100,
+        moveToY: this.canvas.height + 100,
+      }),
     ]
 
     if (this.animationFrame) window.cancelAnimationFrame(this.animationFrame)
@@ -64,7 +99,6 @@ class AnimatedBackground1 {
     const timeDelta = now - this.prevTime
 
     this.drawBackground()
-
     this.elements.forEach(element => element.update(timeDelta))
 
     this.prevTime = now
