@@ -1,25 +1,26 @@
 import Box from './box.js'
-import Rotating from './rotating.js'
+import Rotate from './rotate.js'
+import Scale from './scale.js'
+
+import getCurrent from './utils/get-current.js'
 
 export default class Translate {
   /**
    * @param {CanvasRenderingContext2D} ctx
    * @param {Object} settings
-   * @param {Box|Rotating} settings.content
+   * @param {Number[]} settings.start
+   * @param {Number[]} settings.end
+   * @param {Number} settings.duration
+   * @param {Box|Rotate|Scale} settings.content
    */
   constructor(ctx, settings) {
     this.ctx = ctx
 
-    this.originalX = settings.x || 0
-    this.originalY = settings.y || 0
+    this.start = settings.start || [ 0, 0 ]
+    this.current = [ ...this.start ]
+    this.end = settings.end
 
-    this.x = this.originalX
-    this.y = this.originalY
-
-    this.moveToX = settings.moveToX
-    this.moveToY = settings.moveToY
-
-    this.moveInMs = settings.moveInMs || 5000
+    this.duration = settings.duration || 5000
 
     this.content = settings.content
 
@@ -34,38 +35,26 @@ export default class Translate {
   }
 
   translate(timeDelta) {
-    if (this.moveToX) {
-      if (this.moveToX > this.originalX) {
-        const xDistance = this.moveToX - this.originalX
-        const xSpeed = xDistance / this.moveInMs * timeDelta
-        this.x += xSpeed
+    if (this.end) {
+      // X
+      this.current[0] = getCurrent(
+        this.start[0],
+        this.end[0],
+        this.current[0],
+        timeDelta,
+        this.duration,
+      )
 
-        if (this.x > this.moveToX) {
-          this.x = this.originalX
-          this.y = this.originalY
-        }
-      } else if (this.moveToX < this.originalX) {
-        const xDistance = this.originalX - this.moveToX
-        const xSpeed = xDistance / this.moveInMs * timeDelta
-        this.x -= xSpeed
-
-        if (this.x < this.moveToX) {
-          this.x = this.originalX
-          this.y = this.originalY
-        }
-      }
-
-      if (this.moveToY > this.originalY) {
-        const yDistance = this.moveToY - this.originalY
-        const ySpeed = yDistance / this.moveInMs * timeDelta
-        this.y += ySpeed
-      } else if (this.moveToY < this.originalY) {
-        const yDistance = this.originalY - this.moveToY
-        const ySpeed = yDistance / this.moveInMs * timeDelta
-        this.y -= ySpeed
-      }
+      // Y
+      this.current[1] = getCurrent(
+        this.start[1],
+        this.end[1],
+        this.current[1],
+        timeDelta,
+        this.duration,
+      )
     }
 
-    this.ctx.translate(this.x, this.y)
+    this.ctx.translate(this.current[0], this.current[1])
   }
 }

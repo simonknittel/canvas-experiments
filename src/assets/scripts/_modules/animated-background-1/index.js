@@ -1,7 +1,8 @@
 import throttle from 'lodash/throttle'
 
 import Box from './box.js'
-import Rotating from './rotating.js'
+import Rotate from './rotate.js'
+import Scale from './scale.js'
 import Translate from './translate.js'
 
 /* eslint-disable require-jsdoc, object-property-newline */
@@ -52,41 +53,43 @@ class AnimatedBackground1 {
 
     this.elements = [
       new Translate(this.ctx, {
-        content: new Rotating(this.ctx, {
-          content: new Box(this.ctx, { width: 100, height: 100 }),
-          rotationOrigin: [50, 50],
-          msPerRotation: 0.0005,
+        content: new Scale(this.ctx, {
+          content: new Rotate(this.ctx, {
+            content: new Box(this.ctx, { width: 100, height: 100 }),
+            rotationOrigin: [ 50, 50 ],
+            duration: 0.0005,
+          }),
+          end: [ 2, 2 ],
+          duration: 500,
         }),
-        x: this.canvas.width + 200,
-        y: 100,
-        moveToX: -200,
-        moveToY: 100,
-        moveInMs: 1000,
+        start: [ this.canvas.width + 200, 100 ],
+        end: [ -200, 100 ],
+        duration: 1000,
       }),
 
       new Translate(this.ctx, {
-        content: new Rotating(this.ctx, {
+        content: new Rotate(this.ctx, {
           content: new Box(this.ctx, { width: 200, height: 100 }),
-          rotationOrigin: [100, 50],
-          msPerRotation: 0.0005,
+          rotationOrigin: [ 100, 50 ],
+          duration: 0.0005,
         }),
-        x: this.canvas.width + 400,
-        y: 50,
-        moveToX: -200,
-        moveToY: 50,
-        moveInMs: 2000,
+        start: [ this.canvas.width + 400, 50 ],
+        end: [ -200, 50 ],
+        duration: 2000,
       }),
 
       new Translate(this.ctx, {
-        content: new Rotating(this.ctx, {
-          content: new Box(this.ctx, { width: 300, height: 300 }),
+        content: new Rotate(this.ctx, {
+          content: new Scale(this.ctx, {
+            content: new Box(this.ctx, { width: 300, height: 300 }),
+            end: [ 1, 2 ],
+            duration: 500,
+          }),
           rotationOrigin: [150, 150],
-          msPerRotation: 0.01,
+          duration: 0.01,
         }),
-        x: 100,
-        y: -100,
-        moveToX: this.canvas.width - 100,
-        moveToY: this.canvas.height + 100,
+        start: [ 100, -100 ],
+        end: [ this.canvas.width - 100, this.canvas.height + 100 ],
       }),
     ]
 

@@ -1,20 +1,21 @@
 import Box from './box.js'
+import Scale from './scale.js'
 import Translate from './translate.js'
 
-export default class Rotating {
+export default class Rotate {
   /**
    * @param {CanvasRenderingContext2D} ctx
    * @param {Object} settings
    * @param {Number[]} settings.rotationOrigin
-   * @param {Box|Translate} settings.content
+   * @param {Box|Scale|Translate} settings.content
    */
   constructor(ctx, settings) {
     this.ctx = ctx
 
-    this.rotationOrigin = settings.rotationOrigin || [0, 0]
-    this.msPerRotation = settings.msPerRotation || 0.001
+    this.rotationOrigin = settings.rotationOrigin || [ 0, 0 ]
+    this.duration = settings.duration || 0.001
 
-    this.rotation = 0
+    this.current = 0
 
     this.content = settings.content
 
@@ -39,7 +40,7 @@ export default class Rotating {
   }
 
   rotate(timeDelta) {
-    this.rotation += timeDelta * this.msPerRotation
-    this.ctx.rotate(this.rotation)
+    this.current += timeDelta * this.duration // TODO: Properly calculate msPerRotation
+    this.ctx.rotate(this.current)
   }
 }
