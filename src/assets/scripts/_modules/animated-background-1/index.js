@@ -57,7 +57,6 @@ class AnimatedBackground1 {
           content: new Rotate(this.ctx, {
             content: new Box(this.ctx, { width: 100, height: 100 }),
             rotationOrigin: [ 50, 50 ],
-            duration: 0.0005,
           }),
           end: [ 2, 2 ],
           duration: 500,
@@ -71,7 +70,7 @@ class AnimatedBackground1 {
         content: new Rotate(this.ctx, {
           content: new Box(this.ctx, { width: 200, height: 100 }),
           rotationOrigin: [ 100, 50 ],
-          duration: 0.0005,
+          duration: 500,
         }),
         start: [ this.canvas.width + 400, 50 ],
         end: [ -200, 50 ],
@@ -86,7 +85,7 @@ class AnimatedBackground1 {
             duration: 500,
           }),
           rotationOrigin: [150, 150],
-          duration: 0.01,
+          duration: 5000,
         }),
         start: [ 100, -100 ],
         end: [ this.canvas.width - 100, this.canvas.height + 100 ],

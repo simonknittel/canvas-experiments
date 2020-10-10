@@ -1,3 +1,10 @@
+/**
+ * @param {Number} start
+ * @param {Number} end
+ * @param {Number} current
+ * @param {Number} timeDelta
+ * @param {Number} duration
+ */
 export default function getCurrent(start, end, current, timeDelta, duration) {
   if (end > start) {
     const distance = end - start
