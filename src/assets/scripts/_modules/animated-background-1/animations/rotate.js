@@ -1,4 +1,5 @@
-import Box from './box.js'
+import Box from '../shapes/box.js'
+
 import Scale from './scale.js'
 import Translate from './translate.js'
 

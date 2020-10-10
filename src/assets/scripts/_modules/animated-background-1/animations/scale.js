@@ -1,26 +1,27 @@
-import Box from './box.js'
+import Box from '../shapes/box.js'
+
 import Rotate from './rotate.js'
-import Scale from './scale.js'
+import Translate from './translate.js'
 
 import getCurrent from './utils/get-current.js'
 
-export default class Translate {
+export default class Scale {
   /**
    * @param {CanvasRenderingContext2D} ctx
    * @param {Object} settings
    * @param {Number[]} settings.start
    * @param {Number[]} settings.end
    * @param {Number} settings.duration
-   * @param {Box|Rotate|Scale} settings.content
+   * @param {Box|Rotate|Translate} settings.content
    */
   constructor(ctx, settings) {
     this.ctx = ctx
 
-    this.start = settings.start || [ 0, 0 ]
+    this.start = settings.start || [ 1, 1 ]
     this.current = [ ...this.start ]
-    this.end = settings.end
+    this.end = settings.end || [ 2, 2 ]
 
-    this.duration = settings.duration || 5000
+    this.duration = settings.duration || 1000
 
     this.content = settings.content
 
@@ -29,12 +30,12 @@ export default class Translate {
 
   update(timeDelta = 0) {
     this.ctx.save()
-    this.translate(timeDelta)
+    this.scale(timeDelta)
     this.content.update(timeDelta)
     this.ctx.restore()
   }
 
-  translate(timeDelta) {
+  scale(timeDelta) {
     if (this.end) {
       // X
       this.current[0] = getCurrent(
@@ -55,6 +56,6 @@ export default class Translate {
       )
     }
 
-    this.ctx.translate(this.current[0], this.current[1])
+    this.ctx.scale(this.current[0], this.current[1])
   }
 }

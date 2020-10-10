@@ -1,9 +1,10 @@
 import throttle from 'lodash/throttle'
 
-import Box from './box.js'
-import Rotate from './rotate.js'
-import Scale from './scale.js'
-import Translate from './translate.js'
+import Box from './shapes/box.js'
+
+import Rotate from './animations/rotate.js'
+import Scale from './animations/scale.js'
+import Translate from './animations/translate.js'
 
 /* eslint-disable require-jsdoc, object-property-newline */
 
