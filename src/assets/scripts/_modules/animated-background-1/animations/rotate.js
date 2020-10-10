@@ -18,11 +18,16 @@ export default class Rotate {
   constructor(ctx, settings) {
     this.ctx = ctx
 
+    this.animate = settings.animate || false
+
     this.start = settings.start || 0
     this.current = this.start
     this.end = settings.end || Math.PI * 2
 
+    this.timingFunction = settings.timingFunction
     this.duration = settings.duration || 1000
+    this.elapsedTime = 0
+
     this.origin = settings.origin || [ 0, 0 ]
 
     this.content = settings.content
@@ -48,14 +53,20 @@ export default class Rotate {
   }
 
   rotate(timeDelta) {
-    if (this.end) {
-      this.current = getCurrent(
+    if (this.animate) {
+      this.elapsedTime += timeDelta
+
+      const rtn = getCurrent(
         this.start,
         this.end,
         this.current,
         timeDelta,
         this.duration,
+        this.elapsedTime,
+        this.timingFunction,
       )
+      this.current = rtn.current
+      this.elapsedTime = rtn.elapsedTime
     }
 
     this.ctx.rotate(this.current)

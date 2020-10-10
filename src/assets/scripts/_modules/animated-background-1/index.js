@@ -1,6 +1,7 @@
 import throttle from 'lodash/throttle'
 
 import Box from './shapes/box.js'
+import Text from './shapes/text.js'
 
 import Rotate from './animations/rotate.js'
 import Scale from './animations/scale.js'
@@ -57,41 +58,75 @@ class AnimatedBackground1 {
         content: new Scale(this.ctx, {
           content: new Rotate(this.ctx, {
             content: new Box(this.ctx, { width: 100, height: 100 }),
+            animate: true,
             origin: [ 50, 50 ],
           }),
+          animate: true,
           end: [ 2, 2 ],
-          duration: 500,
+          duration: [ 500, 500 ],
           origin: [ 50, 50 ],
+          timingFunction: [ 'cos', 'cos' ],
         }),
-        start: [ this.canvas.width + 200, 100 ],
-        end: [ -200, 100 ],
-        duration: 1000,
+        animate: true,
+        start: [ this.canvas.width + 200, 400 ],
+        end: [ -200, 400 ],
+        duration: [ 1000, 1000 ],
+        timingFunction: [ 'cos', 'cos' ],
       }),
 
       new Translate(this.ctx, {
         content: new Rotate(this.ctx, {
           content: new Box(this.ctx, { width: 200, height: 100 }),
+          animate: true,
           origin: [ 100, 50 ],
           duration: 500,
         }),
-        start: [ this.canvas.width + 400, 50 ],
-        end: [ -200, 50 ],
-        duration: 2000,
+        animate: true,
+        start: [ this.canvas.width + 400, 300 ],
+        end: [ -200, 300 ],
+        duration: [ 2000, 2000 ],
       }),
 
       new Translate(this.ctx, {
         content: new Rotate(this.ctx, {
           content: new Scale(this.ctx, {
             content: new Box(this.ctx, { width: 300, height: 300 }),
+            animate: true,
             end: [ 1, 2 ],
-            duration: 500,
-            origin: [150, 150],
+            duration: [ 500, 500 ],
+            origin: [ 150, 150 ],
+            timingFunction: [ 'cos', 'cos' ],
           }),
-          origin: [150, 150],
+          animate: true,
+          origin: [ 150, 150 ],
           duration: 5000,
         }),
-        start: [ 100, -100 ],
-        end: [ this.canvas.width - 100, this.canvas.height + 100 ],
+        animate: true,
+        start: [ 0, -400 ],
+        end: [ this.canvas.width, this.canvas.height + 400 ],
+        duration: [ 5000, 5000 ],
+      }),
+
+      new Translate(this.ctx, {
+        content: new Rotate(this.ctx, {
+          content: new Box(this.ctx, { width: 200, height: 100 }),
+          origin: [ 100, 50 ],
+          start: Math.PI / 4,
+        }),
+        start: [ this.canvas.width - 300, 100 ],
+      }),
+
+      new Translate(this.ctx, {
+        content: new Rotate(this.ctx, {
+          content: new Text(this.ctx, { font: '50px sans-serif', text: 'Wheeeeeeeeeee' }),
+          animate: true,
+          origin: [ 100, 50 ],
+          duration: 750,
+        }),
+        animate: true,
+        start: [ 100, this.canvas.height ],
+        end: [ this.canvas.width, -200 ],
+        duration: [ 3000, 3000 ],
       }),
     ]
 

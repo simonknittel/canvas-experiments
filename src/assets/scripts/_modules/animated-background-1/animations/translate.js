@@ -17,11 +17,15 @@ export default class Translate {
   constructor(ctx, settings) {
     this.ctx = ctx
 
+    this.animate = settings.animate || false
+
     this.start = settings.start || [ 0, 0 ]
     this.current = [ ...this.start ]
     this.end = settings.end
 
-    this.duration = settings.duration || 5000
+    this.timingFunction = settings.timingFunction || []
+    this.duration = settings.duration || [ 1000, 1000 ]
+    this.elapsedTime = [ 0, 0 ]
 
     this.content = settings.content
 
@@ -36,24 +40,37 @@ export default class Translate {
   }
 
   translate(timeDelta) {
-    if (this.end) {
+    if (this.animate) {
+      this.elapsedTime = [
+        this.elapsedTime[0] + timeDelta,
+        this.elapsedTime[1] + timeDelta,
+      ]
+
       // X
-      this.current[0] = getCurrent(
+      const rtn0 = getCurrent(
         this.start[0],
         this.end[0],
         this.current[0],
         timeDelta,
-        this.duration,
+        this.duration[0],
+        this.elapsedTime[0],
+        this.timingFunction[0],
       )
+      this.current[0] = rtn0.current
+      this.elapsedTime[0] = rtn0.elapsedTime
 
       // Y
-      this.current[1] = getCurrent(
+      const rtn1 = getCurrent(
         this.start[1],
         this.end[1],
         this.current[1],
         timeDelta,
-        this.duration,
+        this.duration[1],
+        this.elapsedTime[1],
+        this.timingFunction[1],
       )
+      this.current[1] = rtn1.current
+      this.elapsedTime[1] = rtn1.elapsedTime
     }
 
     this.ctx.translate(this.current[0], this.current[1])
