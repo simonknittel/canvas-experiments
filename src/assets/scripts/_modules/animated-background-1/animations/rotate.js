@@ -12,7 +12,7 @@ export default class Rotate {
    * @param {Number[]} settings.start
    * @param {Number[]} settings.end
    * @param {Number} settings.duration
-   * @param {Number[]} settings.rotationOrigin
+   * @param {Number[]} settings.origin
    * @param {Box|Scale|Translate} settings.content
    */
   constructor(ctx, settings) {
@@ -23,7 +23,7 @@ export default class Rotate {
     this.end = settings.end || Math.PI * 2
 
     this.duration = settings.duration || 1000
-    this.rotationOrigin = settings.rotationOrigin || [ 0, 0 ]
+    this.origin = settings.origin || [ 0, 0 ]
 
     this.content = settings.content
 
@@ -32,19 +32,19 @@ export default class Rotate {
 
   update(timeDelta = 0) {
     this.ctx.save()
-    this.moveRotationOrigin()
+    this.moveOrigin()
     this.rotate(timeDelta)
-    this.resetRotationOrigin()
+    this.resetOrigin()
     this.content.update(timeDelta)
     this.ctx.restore()
   }
 
-  moveRotationOrigin() {
-    this.ctx.translate(this.rotationOrigin[0], this.rotationOrigin[1])
+  moveOrigin() {
+    this.ctx.translate(this.origin[0], this.origin[1])
   }
 
-  resetRotationOrigin() {
-    this.ctx.translate(-this.rotationOrigin[0], -this.rotationOrigin[1])
+  resetOrigin() {
+    this.ctx.translate(-this.origin[0], -this.origin[1])
   }
 
   rotate(timeDelta) {

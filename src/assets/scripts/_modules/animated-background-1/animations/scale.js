@@ -12,6 +12,7 @@ export default class Scale {
    * @param {Number[]} settings.start
    * @param {Number[]} settings.end
    * @param {Number} settings.duration
+   * @param {Number[]} settings.origin
    * @param {Box|Rotate|Translate} settings.content
    */
   constructor(ctx, settings) {
@@ -22,6 +23,7 @@ export default class Scale {
     this.end = settings.end || [ 2, 2 ]
 
     this.duration = settings.duration || 1000
+    this.origin = settings.origin || [ 0, 0 ]
 
     this.content = settings.content
 
@@ -30,9 +32,19 @@ export default class Scale {
 
   update(timeDelta = 0) {
     this.ctx.save()
+    this.moveOrigin()
     this.scale(timeDelta)
+    this.resetOrigin()
     this.content.update(timeDelta)
     this.ctx.restore()
+  }
+
+  moveOrigin() {
+    this.ctx.translate(this.origin[0], this.origin[1])
+  }
+
+  resetOrigin() {
+    this.ctx.translate(-this.origin[0], -this.origin[1])
   }
 
   scale(timeDelta) {
