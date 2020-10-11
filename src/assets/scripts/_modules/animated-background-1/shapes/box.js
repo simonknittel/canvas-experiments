@@ -2,7 +2,7 @@ export default class Box {
   /**
    * @param {CanvasRenderingContext2D} ctx
    */
-  constructor(ctx, settings) {
+  constructor(ctx, allElements, settings) {
     this.ctx = ctx
 
     this.width = settings.width || 100

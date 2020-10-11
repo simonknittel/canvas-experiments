@@ -13,10 +13,11 @@ export default class Scale {
    * @param {Number[]} settings.end
    * @param {Number[]} settings.duration
    * @param {Number[]} settings.origin
-   * @param {Box|Rotate|Translate} settings.content
+   * @param {Box|Rotate|Translate} settings.child
    */
-  constructor(ctx, settings) {
+  constructor(ctx, allElements, settings) {
     this.ctx = ctx
+    this.allElements = allElements
 
     this.animate = settings.animate || false
 
@@ -30,17 +31,19 @@ export default class Scale {
 
     this.origin = settings.origin || [ 0, 0 ]
 
-    this.content = settings.content
+    this.childKey = settings.child
 
     // TODO: Add possibility to specify a timing function
   }
 
   update(timeDelta = 0) {
     this.ctx.save()
+
     this.moveOrigin()
     this.scale(timeDelta)
     this.resetOrigin()
-    this.content.update(timeDelta)
+    this.updateChild(timeDelta)
+
     this.ctx.restore()
   }
 
@@ -89,5 +92,12 @@ export default class Scale {
     }
 
     this.ctx.scale(this.current[0], this.current[1])
+  }
+
+  updateChild(timeDelta) {
+    if (!this.child) this.child = this.allElements[this.childKey]
+
+    if (!this.child.initializedInstance) return
+    this.child.initializedInstance.update(timeDelta)
   }
 }

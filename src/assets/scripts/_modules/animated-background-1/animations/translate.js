@@ -12,10 +12,11 @@ export default class Translate {
    * @param {Number[]} settings.start
    * @param {Number[]} settings.end
    * @param {Number} settings.duration
-   * @param {Box|Rotate|Scale} settings.content
+   * @param {Box|Rotate|Scale} settings.child
    */
-  constructor(ctx, settings) {
+  constructor(ctx, allElements, settings) {
     this.ctx = ctx
+    this.allElements = allElements
 
     this.animate = settings.animate || false
 
@@ -27,15 +28,17 @@ export default class Translate {
     this.duration = settings.duration || [ 1000, 1000 ]
     this.elapsedTime = [ 0, 0 ]
 
-    this.content = settings.content
+    this.childKey = settings.child
 
     // TODO: Add possibility to specify a timing function
   }
 
   update(timeDelta = 0) {
     this.ctx.save()
+
     this.translate(timeDelta)
-    this.content.update(timeDelta)
+    this.updateChild(timeDelta)
+
     this.ctx.restore()
   }
 
@@ -74,5 +77,12 @@ export default class Translate {
     }
 
     this.ctx.translate(this.current[0], this.current[1])
+  }
+
+  updateChild(timeDelta) {
+    if (!this.child) this.child = this.allElements[this.childKey]
+
+    if (!this.child.initializedInstance) return
+    this.child.initializedInstance.update(timeDelta)
   }
 }
