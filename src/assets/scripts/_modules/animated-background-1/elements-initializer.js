@@ -40,8 +40,8 @@ export default class ElementsInitializer {
     if (typeof value === 'number') return value
 
     let replacedValue = value
-    replacedValue = replacedValue.replace('canvas.width', this.canvas.width)
-    replacedValue = replacedValue.replace('canvas.height', this.canvas.height)
+    replacedValue = replacedValue.replace(/canvas\.width/g, this.canvas.width)
+    replacedValue = replacedValue.replace(/canvas\.height/g, this.canvas.height)
 
     return eval(replacedValue)
   }
@@ -62,5 +62,11 @@ export default class ElementsInitializer {
     }
 
     return rootElements
+  }
+
+  appendElement(key, config) {
+    this.elements[key] = config
+    this.populateElementConfig(key)
+    this.createInstance(key)
   }
 }

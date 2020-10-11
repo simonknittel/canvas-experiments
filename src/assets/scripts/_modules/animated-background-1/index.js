@@ -2,8 +2,6 @@ import throttle from 'lodash/throttle'
 
 import ElementsInitializer from './elements-initializer.js'
 
-import dummy from './presets/dummy.js'
-
 /* eslint-disable require-jsdoc, object-property-newline */
 
 class AnimatedBackground1 {
@@ -15,11 +13,23 @@ class AnimatedBackground1 {
     /** @type {CanvasRenderingContext2D} */
     this.ctx = this.canvas.getContext('2d')
 
-    this.config = dummy
+    this.getPreset('flowers')
     this.resizeCanvas()
 
     const throttledOnResize = throttle(this.onResize.bind(this), 500)
     window.addEventListener('resize', throttledOnResize)
+  }
+
+  getPreset(name) {
+    const Preset = require(`./presets/${name}.js`).default
+    const initializedPreset = new Preset(this)
+    this.config = initializedPreset.getConfig()
+  }
+
+  appendElement(key, config) {
+    if (!this.elementsInitializer) return
+    this.elementsInitializer.appendElement(key, config)
+    this.rootElements = this.elementsInitializer.getRootElements()
   }
 
   resizeCanvas() {
@@ -37,6 +47,7 @@ class AnimatedBackground1 {
     this.prevTime = new Date().getTime()
 
     this.elementsInitializer = new ElementsInitializer(this.config.elements, this.ctx, this.canvas)
+    this.rootElements = this.elementsInitializer.getRootElements()
 
     if (this.animationFrame) window.cancelAnimationFrame(this.animationFrame)
     this.animationFrame = window.requestAnimationFrame(this.drawLoop.bind(this))
@@ -48,10 +59,9 @@ class AnimatedBackground1 {
 
     this.drawBackground()
 
-    const rootElements = this.elementsInitializer.getRootElements()
-    for (const key in rootElements) {
-      if (!rootElements.hasOwnProperty(key)) continue
-      rootElements[key].initializedInstance.update(timeDelta)
+    for (const key in this.rootElements) {
+      if (!this.rootElements.hasOwnProperty(key)) continue
+      this.rootElements[key].initializedInstance.update(timeDelta)
     }
 
     this.prevTime = now
