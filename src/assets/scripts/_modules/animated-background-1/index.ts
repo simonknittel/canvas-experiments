@@ -1,16 +1,27 @@
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash'
 
-import ElementsInitializer from './elements-initializer.js'
+import ElementsInitializer from './elements-initializer'
+import { ElementCollection, ElementConfig, PresetConfig } from './types/global'
 
 /* eslint-disable require-jsdoc, object-property-newline */
 
 class AnimatedBackground1 {
-  constructor(container) {
+  container: HTMLElement
+  canvas: HTMLCanvasElement
+  ctx: CanvasRenderingContext2D
+
+  config: PresetConfig
+  elementsInitializer: ElementsInitializer
+  rootElements: ElementCollection
+
+  prevTime: number
+  animationFrame: number
+
+  constructor(container: HTMLElement) {
     this.container = container
     this.canvas = this.container.querySelector('canvas')
     if (!this.canvas) return
 
-    /** @type {CanvasRenderingContext2D} */
     this.ctx = this.canvas.getContext('2d')
 
     this.getPreset('flowers')
@@ -20,13 +31,13 @@ class AnimatedBackground1 {
     window.addEventListener('resize', throttledOnResize)
   }
 
-  getPreset(name) {
-    const Preset = require(`./presets/${name}.js`).default
+  getPreset(name: string) {
+    const Preset = require(`./presets/${name}.ts`).default
     const initializedPreset = new Preset(this)
     this.config = initializedPreset.getConfig()
   }
 
-  appendElement(key, config) {
+  appendElement(key: string, config: ElementConfig) {
     if (!this.elementsInitializer) return
     this.elementsInitializer.appendElement(key, config)
     this.rootElements = this.elementsInitializer.getRootElements()
@@ -80,4 +91,4 @@ class AnimatedBackground1 {
   }
 }
 
-new AnimatedBackground1(document)
+new AnimatedBackground1(document.body)

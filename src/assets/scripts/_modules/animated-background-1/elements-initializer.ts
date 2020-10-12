@@ -1,11 +1,15 @@
+import { ElementCollection, ElementConfig } from "./types/global"
+
 export default class ElementsInitializer {
-  /**
-   *
-   * @param {Object} elements
-   * @param {CanvasRenderingContext2D} ctx
-   * @param {HTMLCanvasElement} canvas
-   */
-  constructor(elements, ctx, canvas) {
+  elements: ElementCollection
+  ctx: CanvasRenderingContext2D
+  canvas: HTMLCanvasElement
+
+  constructor(
+    elements: ElementCollection,
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement
+  ) {
     this.elements = Object.assign({}, elements)
     this.ctx = ctx
     this.canvas = canvas
@@ -19,12 +23,12 @@ export default class ElementsInitializer {
       .forEach(this.initialize.bind(this))
   }
 
-  initialize(key) {
+  initialize(key: string) {
     this.populateElementConfig(key)
     this.createInstance(key)
   }
 
-  populateElementConfig(key) {
+  populateElementConfig(key: string) {
     const config = this.elements[key]
     if ([
       'animations/translate',
@@ -36,19 +40,19 @@ export default class ElementsInitializer {
     }
   }
 
-  replaceValue(value) {
+  replaceValue(value: string): number {
     if (typeof value === 'number') return value
 
     let replacedValue = value
-    replacedValue = replacedValue.replace(/canvas\.width/g, this.canvas.width)
-    replacedValue = replacedValue.replace(/canvas\.height/g, this.canvas.height)
+    replacedValue = replacedValue.replace(/canvas\.width/g, this.canvas.width.toString())
+    replacedValue = replacedValue.replace(/canvas\.height/g, this.canvas.height.toString())
 
     return eval(replacedValue)
   }
 
-  createInstance(key) {
+  createInstance(key: string) {
     const config = this.elements[key]
-    const Cls = require(`./${config.type}.js`).default
+    const Cls = require(`./${config.type}.ts`).default
     config.initializedInstance = new Cls(this.ctx, this.elements, config)
   }
 
@@ -64,7 +68,7 @@ export default class ElementsInitializer {
     return rootElements
   }
 
-  appendElement(key, config) {
+  appendElement(key: string, config: ElementConfig) {
     this.elements[key] = config
     this.populateElementConfig(key)
     this.createInstance(key)

@@ -1,8 +1,23 @@
+interface Settings {
+  width?: number
+  height?: number
+  fillStyle?: string
+}
+
 export default class Box {
-  /**
-   * @param {CanvasRenderingContext2D} ctx
-   */
-  constructor(ctx, allElements, settings) {
+  ctx: CanvasRenderingContext2D
+  allElements: object
+  settings: Settings
+
+  width: number
+  height: number
+  fillStyle: string
+
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    allElements: object,
+    settings: Settings
+  ) {
     this.ctx = ctx
 
     this.width = settings.width || 100

@@ -1,8 +1,25 @@
+interface Settings {
+  url: string
+  width: number
+  height: number
+}
+
 export default class Img {
-  /**
-   * @param {CanvasRenderingContext2D} ctx
-   */
-  constructor(ctx, allElements, settings) {
+  ctx: CanvasRenderingContext2D
+  allElements: object
+  settings: Settings
+
+  url: string
+  width: number
+  height: number
+
+  image: HTMLImageElement
+
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    allElements: object,
+    settings: Settings
+  ) {
     this.ctx = ctx
 
     this.url = settings.url

@@ -1,9 +1,17 @@
+import { TimingFunction } from "../../types/global"
+
 // TODO: React to audio
 function getBoost() {
   return 0
 }
 
-function getSpeed(totalDistance, progress, duration, timeDelta, timingFunction) {
+function getSpeed(
+  totalDistance: number,
+  progress: number,
+  duration: number,
+  timeDelta: number,
+  timingFunction?: TimingFunction
+) {
   let base = totalDistance / duration * timeDelta
 
   switch (timingFunction) {
@@ -19,14 +27,15 @@ function getSpeed(totalDistance, progress, duration, timeDelta, timingFunction) 
   return base + getBoost()
 }
 
-/**
- * @param {Number} start
- * @param {Number} end
- * @param {Number} current
- * @param {Number} timeDelta
- * @param {Number} duration
- */
-export default function getCurrent(start, end, current, timeDelta, duration, elapsedTime, timingFunction) {
+export default function getCurrent(
+  start: number,
+  end: number,
+  current: number,
+  timeDelta: number,
+  duration: number,
+  elapsedTime: number,
+  timingFunction?: TimingFunction
+) {
   const totalDistance = Math.abs(end - start)
   const progress = elapsedTime / duration
 

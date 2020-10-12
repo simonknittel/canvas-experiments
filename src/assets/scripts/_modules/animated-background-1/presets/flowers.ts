@@ -1,4 +1,13 @@
+import { PresetConfig, Types } from "../types/global"
+
 export default class Preset {
+  those: any
+
+  generatedParticles: number
+  particleLimit: number
+
+  boundGenerateParticle: any
+
   constructor(those) {
     this.those = those
 
@@ -10,7 +19,7 @@ export default class Preset {
   }
 
   getConfig() {
-    return {
+    const baseConfig: PresetConfig = {
       animation: {
         play: true,
       },
@@ -20,6 +29,8 @@ export default class Preset {
       },
       elements: {},
     }
+
+    return baseConfig
   }
 
   generateParticle() {
@@ -30,7 +41,7 @@ export default class Preset {
     const duration = this.getRandomBetween(10000, 20000)
 
     this.those.appendElement(`particle${id}`, {
-      type: 'animations/translate',
+      type: Types.AnimationsTranslate,
       start: [ xAxis, 'canvas.height' ],
       end: [ xAxis, -size ],
       duration: [ duration, duration ],
@@ -40,7 +51,7 @@ export default class Preset {
     })
 
     this.those.appendElement(`particle${id}.rotate`, {
-      type: 'animations/rotate',
+      type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
       duration: 10000,
       animate: true,
@@ -48,7 +59,7 @@ export default class Preset {
     })
 
     this.those.appendElement(`particle${id}.img`, {
-      type: 'shapes/img',
+      type: Types.ShapesImg,
       url: 'https://pics.clipartpng.com/Tropical_Flower_PNG_Clipart-194.png',
       width: size,
       height: size,
@@ -59,7 +70,7 @@ export default class Preset {
     setTimeout(this.boundGenerateParticle, this.getRandomBetween(600, 800))
   }
 
-  getRandomBetween(min, max) {
+  getRandomBetween(min: number, max: number) {
     return Math.random() * (max - min) + min
   }
 }

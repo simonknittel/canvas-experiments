@@ -1,21 +1,41 @@
-import Box from '../shapes/box.js'
+import { ElementConfig, TimingFunction } from '../types/global'
 
-import Scale from './scale.js'
-import Translate from './translate.js'
+import getCurrent from './utils/get-current'
 
-import getCurrent from './utils/get-current.js'
+interface Settings {
+  animate?: boolean
+  start?: number
+  end?: number
+  timingFunction: TimingFunction
+  duration?: number
+  origin?: [number, number]
+  child: string
+}
 
 export default class Rotate {
-  /**
-   * @param {CanvasRenderingContext2D} ctx
-   * @param {Object} settings
-   * @param {Number[]} settings.start
-   * @param {Number[]} settings.end
-   * @param {Number} settings.duration
-   * @param {Number[]} settings.origin
-   * @param {Box|Scale|Translate} settings.child
-   */
-  constructor(ctx, allElements, settings) {
+  ctx: CanvasRenderingContext2D
+  allElements: object
+
+  animate: boolean
+
+  start: number
+  current: number
+  end: number
+
+  timingFunction: TimingFunction
+  duration: number
+  elapsedTime: number
+
+  origin: [number, number]
+
+  childKey: string
+  child: ElementConfig
+
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    allElements: object,
+    settings: Settings
+  ) {
     this.ctx = ctx
     this.allElements = allElements
 
@@ -32,8 +52,6 @@ export default class Rotate {
     this.origin = settings.origin || [ 0, 0 ]
 
     this.childKey = settings.child
-
-    // TODO: Add possibility to specify a timing function
   }
 
   update(timeDelta = 0) {
@@ -55,7 +73,7 @@ export default class Rotate {
     this.ctx.translate(-this.origin[0], -this.origin[1])
   }
 
-  rotate(timeDelta) {
+  rotate(timeDelta: number) {
     if (this.animate) {
       this.elapsedTime += timeDelta
 
@@ -75,7 +93,7 @@ export default class Rotate {
     this.ctx.rotate(this.current)
   }
 
-  updateChild(timeDelta) {
+  updateChild(timeDelta: number) {
     if (!this.child) this.child = this.allElements[this.childKey]
 
     if (!this.child.initializedInstance) return

@@ -1,8 +1,21 @@
+interface Settings {
+  font: string
+  text: string
+}
+
 export default class Text {
-  /**
-   * @param {CanvasRenderingContext2D} ctx
-   */
-  constructor(ctx, allElements, settings) {
+  ctx: CanvasRenderingContext2D
+  allElements: object
+  settings: Settings
+
+  font: string
+  text: string
+
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    allElements: object,
+    settings: Settings
+  ) {
     this.ctx = ctx
 
     this.font = settings.font

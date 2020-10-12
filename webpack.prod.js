@@ -12,7 +12,7 @@ module.exports = {
     publicPath: '/assets/js/',
   },
   resolve: {
-    extensions: [ '.js' ],
+    extensions: [ '.js', '.ts', '.tsx' ],
   },
   module: {
     rules: [
@@ -25,6 +25,11 @@ module.exports = {
             presets: ['@babel/preset-env'],
           },
         },
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_module/,
       },
     ],
   },
