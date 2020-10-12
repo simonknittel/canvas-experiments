@@ -1,4 +1,4 @@
-import { PresetConfig, Types } from "../types/global"
+import { PresetConfig, TimingFunction, Types } from "../types/global"
 
 const preset: PresetConfig = {
   animation: {
@@ -15,7 +15,7 @@ const preset: PresetConfig = {
       start: [ 'canvas.width + 200', 400 ],
       end: [ -200, 400 ],
       duration: [ 1000, 1000 ],
-      timingFunction: [ 'cos', 'cos' ],
+      timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
       child: 'bouncyBoi.scale1',
       root: true,
     },
@@ -26,7 +26,7 @@ const preset: PresetConfig = {
       end: [ 2, 2 ],
       duration: [ 500, 500 ],
       origin: [ 50, 50 ],
-      timingFunction: [ 'cos', 'cos' ],
+      timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
       child: 'bouncyBoi.scale1.rotate1',
     },
 
@@ -67,7 +67,7 @@ const preset: PresetConfig = {
       end: [ 1, 2 ],
       duration: [ 500, 500 ],
       origin: [ 150, 150 ],
-      timingFunction: [ 'cos', 'cos' ],
+      timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
       child: 'bigBoi.rotate1.scale1.box1',
     },
 
