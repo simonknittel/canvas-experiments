@@ -1,5 +1,3 @@
-import { TimingFunction } from "../../types/global"
-
 // TODO: React to audio
 function getBoost() {
   return 0

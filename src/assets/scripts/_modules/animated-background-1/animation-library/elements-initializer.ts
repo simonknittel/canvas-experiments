@@ -1,5 +1,3 @@
-import { ElementCollection, ElementConfig } from "./types/global"
-
 export default class ElementsInitializer {
   elements: ElementCollection
   ctx: CanvasRenderingContext2D

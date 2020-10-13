@@ -1,5 +1,3 @@
-import { ElementConfig, TimingFunction } from '../types/global'
-
 import getCurrent from './utils/get-current'
 
 interface Settings {

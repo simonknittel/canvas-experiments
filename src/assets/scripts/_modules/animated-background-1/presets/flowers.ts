@@ -1,36 +1,28 @@
-import { PresetConfig, Types } from "../types/global"
+import AnimationLibrary from "../animation-library"
 
-export default class Preset {
-  those: any
+export default class Preset implements Config {
+  animationLibrary: AnimationLibrary
+  animated: boolean
+  background: { top: string; bottom: string }
 
   generatedParticles: number
   particleLimit: number
 
   boundGenerateParticle: any
 
-  constructor(those) {
-    this.those = those
+  constructor(animationLibrary: AnimationLibrary) {
+    this.animationLibrary = animationLibrary
+    this.animated = true
+    this.background = {
+      top: 'hsl(342, 100%, 75%)',
+      bottom: '#ffc875',
+    }
 
     this.generatedParticles = 0
     this.particleLimit = 30
 
     this.boundGenerateParticle = this.generateParticle.bind(this)
     this.boundGenerateParticle()
-  }
-
-  getConfig() {
-    const baseConfig: PresetConfig = {
-      animation: {
-        play: true,
-      },
-      background: {
-        top: 'hsl(342, 100%, 75%)',
-        bottom: '#ffc875',
-      },
-      elements: {},
-    }
-
-    return baseConfig
   }
 
   generateParticle() {
@@ -40,7 +32,7 @@ export default class Preset {
     const size = this.getRandomBetween(20, 150)
     const duration = this.getRandomBetween(10000, 20000)
 
-    this.those.appendElement(`particle${id}`, {
+    this.animationLibrary.appendElement(`particle${id}`, {
       type: Types.AnimationsTranslate,
       start: [ xAxis, 'canvas.height' ],
       end: [ xAxis, -size ],
@@ -50,7 +42,7 @@ export default class Preset {
       root: true,
     })
 
-    this.those.appendElement(`particle${id}.rotate`, {
+    this.animationLibrary.appendElement(`particle${id}.rotate`, {
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
       duration: 10000,
@@ -58,7 +50,7 @@ export default class Preset {
       child: `particle${id}.img`,
     })
 
-    this.those.appendElement(`particle${id}.img`, {
+    this.animationLibrary.appendElement(`particle${id}.img`, {
       type: Types.ShapesImg,
       url: 'https://pics.clipartpng.com/Tropical_Flower_PNG_Clipart-194.png',
       width: size,

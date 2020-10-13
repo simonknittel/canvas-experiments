@@ -1,18 +1,16 @@
-import { ElementConfig, TimingFunction } from '../types/global'
-
 import getCurrent from './utils/get-current'
 
 interface Settings {
   animate?: boolean
   start?: [number, number]
-  end: [number, number]
+  end?: [number, number]
   timingFunction?: [TimingFunction, TimingFunction]
   duration?: [number, number]
   origin?: [number, number]
   child: string
 }
 
-export default class Scale {
+export default class Translate {
   ctx: CanvasRenderingContext2D
   allElements: object
 
@@ -25,8 +23,6 @@ export default class Scale {
   timingFunction: [TimingFunction, TimingFunction] | []
   duration: [number, number]
   elapsedTime: [number, number]
-
-  origin: [number, number]
 
   childKey: string
   child: ElementConfig
@@ -41,15 +37,13 @@ export default class Scale {
 
     this.animate = settings.animate || false
 
-    this.start = settings.start || [ 1, 1 ]
+    this.start = settings.start || [ 0, 0 ]
     this.current = [ ...this.start ]
-    this.end = settings.end || [ 2, 2 ]
+    this.end = settings.end
 
     this.timingFunction = settings.timingFunction || []
     this.duration = settings.duration || [ 1000, 1000 ]
     this.elapsedTime = [ 0, 0 ]
-
-    this.origin = settings.origin || [ 0, 0 ]
 
     this.childKey = settings.child
   }
@@ -57,23 +51,13 @@ export default class Scale {
   update(timeDelta = 0) {
     this.ctx.save()
 
-    this.moveOrigin()
-    this.scale(timeDelta)
-    this.resetOrigin()
+    this.translate(timeDelta)
     this.updateChild(timeDelta)
 
     this.ctx.restore()
   }
 
-  moveOrigin() {
-    this.ctx.translate(this.origin[0], this.origin[1])
-  }
-
-  resetOrigin() {
-    this.ctx.translate(-this.origin[0], -this.origin[1])
-  }
-
-  scale(timeDelta: number) {
+  translate(timeDelta: number) {
     if (this.animate) {
       this.elapsedTime = [
         this.elapsedTime[0] + timeDelta,
@@ -107,7 +91,7 @@ export default class Scale {
       this.elapsedTime[1] = rtn1.elapsedTime
     }
 
-    this.ctx.scale(this.current[0], this.current[1])
+    this.ctx.translate(this.current[0], this.current[1])
   }
 
   updateChild(timeDelta: number) {
