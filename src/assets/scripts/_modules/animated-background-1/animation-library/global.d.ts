@@ -36,11 +36,14 @@ declare global {
     timingFunction?: [TimingFunction, TimingFunction]
     origin?: any
 
+    url?: string
     width?: number
     height?: number
+
     font?: string
     text?: string
-    url?: string
+
+    local?: boolean
 
     child?: string
     root?: boolean

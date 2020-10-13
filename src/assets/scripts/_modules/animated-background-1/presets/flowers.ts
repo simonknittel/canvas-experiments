@@ -1,6 +1,6 @@
 import AnimationLibrary from "../animation-library"
 
-export default class Preset implements Config {
+export default class Flowers implements Config {
   animationLibrary: AnimationLibrary
   animated: boolean
   background: { top: string; bottom: string }
@@ -38,8 +38,18 @@ export default class Preset implements Config {
       end: [ xAxis, -size ],
       duration: [ duration, duration ],
       animate: true,
-      child: `particle${id}.rotate`,
+      child: `particle${id}.translate`,
       root: true,
+    })
+
+    this.animationLibrary.appendElement(`particle${id}.translate`, {
+      type: Types.AnimationsTranslate,
+      end: [ 200, 0 ],
+      duration: [ 5000, 5000 ],
+      animate: true,
+      timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
+      local: true,
+      child: `particle${id}.rotate`,
     })
 
     this.animationLibrary.appendElement(`particle${id}.rotate`, {

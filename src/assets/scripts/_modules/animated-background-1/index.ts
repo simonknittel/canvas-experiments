@@ -1,4 +1,4 @@
 import AnimationLibrary from "./animation-library";
-import Preset from "./presets/flowers";
+import Flowers from "./presets/flowers";
 
-new AnimationLibrary(document.body, Preset)
+new AnimationLibrary(document.body, Flowers)

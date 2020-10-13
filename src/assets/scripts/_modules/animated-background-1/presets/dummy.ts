@@ -1,6 +1,6 @@
 import AnimationLibrary from "../animation-library"
 
-export default class Preset implements Config {
+export default class Dummy implements Config {
   animationLibrary: AnimationLibrary
   animated: boolean
   background: { top: string; bottom: string }

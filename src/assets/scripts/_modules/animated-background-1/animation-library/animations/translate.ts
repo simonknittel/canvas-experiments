@@ -7,6 +7,7 @@ interface Settings {
   timingFunction?: [TimingFunction, TimingFunction]
   duration?: [number, number]
   origin?: [number, number]
+  local?: boolean
   child: string
 }
 
@@ -23,6 +24,8 @@ export default class Translate {
   timingFunction: [TimingFunction, TimingFunction] | []
   duration: [number, number]
   elapsedTime: [number, number]
+
+  local: boolean
 
   childKey: string
   child: ElementConfig
@@ -45,16 +48,18 @@ export default class Translate {
     this.duration = settings.duration || [ 1000, 1000 ]
     this.elapsedTime = [ 0, 0 ]
 
+    this.local = settings.local || false
+
     this.childKey = settings.child
   }
 
   update(timeDelta = 0) {
-    this.ctx.save()
+    if (!this.local) this.ctx.save()
 
     this.translate(timeDelta)
     this.updateChild(timeDelta)
 
-    this.ctx.restore()
+    if (!this.local) this.ctx.restore()
   }
 
   translate(timeDelta: number) {
