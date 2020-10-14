@@ -1,13 +1,11 @@
 import getCurrent from './utils/get-current'
 
-interface Settings {
-  animate?: boolean
+export interface ScaleSettings extends AnimationSettings {
   start?: [number, number]
   end: [number, number]
   timingFunction?: [TimingFunction, TimingFunction]
   duration?: [number, number]
   origin?: [number, number]
-  child: string
 }
 
 export default class Scale {
@@ -27,12 +25,12 @@ export default class Scale {
   origin: [number, number]
 
   childKey: string
-  child: ElementConfig
+  child: Settings
 
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: object,
-    settings: Settings
+    settings: ScaleSettings
   ) {
     this.ctx = ctx
     this.allElements = allElements

@@ -22,6 +22,9 @@ export default class Flowers implements Config {
     this.particleLimit = 30
 
     this.boundGenerateParticle = this.generateParticle.bind(this)
+  }
+
+  initialized() {
     this.boundGenerateParticle()
   }
 
@@ -32,7 +35,7 @@ export default class Flowers implements Config {
     const size = this.getRandomBetween(20, 150)
     const duration = this.getRandomBetween(10000, 20000)
 
-    this.animationLibrary.appendElement(`particle${id}`, {
+    this.animationLibrary.appendElement(`particle${id}`, <any>{
       type: Types.AnimationsTranslate,
       start: [ xAxis, 'canvas.height' ],
       end: [ xAxis, -size ],
@@ -42,7 +45,7 @@ export default class Flowers implements Config {
       root: true,
     })
 
-    this.animationLibrary.appendElement(`particle${id}.translate`, {
+    this.animationLibrary.appendElement(`particle${id}.translate`, <any>{
       type: Types.AnimationsTranslate,
       end: [ 200, 0 ],
       duration: [ 5000, 5000 ],
@@ -52,15 +55,16 @@ export default class Flowers implements Config {
       child: `particle${id}.rotate`,
     })
 
-    this.animationLibrary.appendElement(`particle${id}.rotate`, {
+    this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
+      end: Math.random() >= .5 ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
       child: `particle${id}.img`,
     })
 
-    this.animationLibrary.appendElement(`particle${id}.img`, {
+    this.animationLibrary.appendElement(`particle${id}.img`, <any>{
       type: Types.ShapesImg,
       url: 'https://pics.clipartpng.com/Tropical_Flower_PNG_Clipart-194.png',
       width: size,

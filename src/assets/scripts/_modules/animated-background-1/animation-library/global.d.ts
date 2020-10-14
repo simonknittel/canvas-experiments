@@ -1,10 +1,10 @@
 import AnimationLibrary from ".";
-import Rotate from "./animations/rotate";
-import Scale from "./animations/scale";
-import Translate from "./animations/translate";
-import Box from "./shapes/box";
-import Img from "./shapes/img";
-import Text from "./shapes/text";
+import Rotate, { RotateSettings } from "./animations/rotate";
+import Scale, { ScaleSettings } from "./animations/scale";
+import Translate, { TranslateSettings } from "./animations/translate";
+import Box, { BoxSettings } from "./shapes/box";
+import Img, { ImgSettings } from "./shapes/img";
+import Text, { TextSettings } from "./shapes/text";
 
 declare global {
   const enum TimingFunction {
@@ -21,37 +21,38 @@ declare global {
     ShapesText = 'shapes/text',
   }
 
-  interface ElementConfig {
+  interface BaseSettings {
     type: Types
-
-    animate?: boolean
-    // start?: [number|string, number|string] | number | string
-    // end?: [number|string, number|string] | number | string
-    // duration?: [number|string, number|string] | number | string
-    // timingFunction?: [TimingFunction, TimingFunction]
-    // origin?: [number|string, number|string] | number | string
-    start?: any
-    end?: any
-    duration?: any
-    timingFunction?: [TimingFunction, TimingFunction]
-    origin?: any
-
-    url?: string
-    width?: number
-    height?: number
-
-    font?: string
-    text?: string
-
-    local?: boolean
-
     child?: string
     root?: boolean
-    initializedInstance?: Rotate | Scale | Translate | Box | Img | Text
+    initializedInstance?:
+      | Rotate
+      | Scale
+      | Translate
+      | Box
+      | Img
+      | Text
   }
 
+  interface AnimationSettings extends BaseSettings {
+    animate?: boolean
+  }
+
+  interface ShapeSettings extends BaseSettings {}
+
+  type Settings =
+    | BaseSettings
+    | AnimationSettings
+    | RotateSettings
+    | ScaleSettings
+    | TranslateSettings
+    | ShapeSettings
+    | BoxSettings
+    | ImgSettings
+    | TextSettings
+
   type ElementCollection = {
-    [id: string]: ElementConfig
+    [id: string]: Settings
   }
 
   interface ConfigConstructor {
@@ -60,11 +61,10 @@ declare global {
 
   interface Config {
     animationLibrary?: AnimationLibrary
-
     animated?: boolean
-
     background: { top: string, bottom: string }
-
     elements?: ElementCollection
+
+    initialized?: Function
   }
 }

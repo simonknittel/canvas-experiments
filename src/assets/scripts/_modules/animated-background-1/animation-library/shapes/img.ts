@@ -1,24 +1,25 @@
-interface Settings {
+export interface ImgSettings extends ShapeSettings {
   url: string
   width: number
   height: number
+  transparency?: number
 }
 
 export default class Img {
   ctx: CanvasRenderingContext2D
   allElements: object
-  settings: Settings
 
   url: string
   width: number
   height: number
 
   image: HTMLImageElement
+  transparency: number
 
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: object,
-    settings: Settings
+    settings: ImgSettings
   ) {
     this.ctx = ctx
 
@@ -28,19 +29,25 @@ export default class Img {
 
     this.image = new Image()
     this.image.src = this.url
+
+    this.transparency = settings.transparency || 1
   }
 
   update() {
-    this.ctx.save() // TODO: Do I need this?
+    this.ctx.save()
+
+    this.ctx.globalAlpha = this.transparency
 
     this.ctx.drawImage(
-      this.image,
-      0,
-      0,
-      this.width,
-      this.height,
+  this.image,
+  0,
+  0,
+  this.width,
+  this.height,
     )
 
-    this.ctx.restore() // TODO: Do I need this?
+    this.ctx.globalAlpha = 1
+
+    this.ctx.restore()
   }
 }

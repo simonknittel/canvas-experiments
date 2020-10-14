@@ -1,4 +1,4 @@
-interface Settings {
+export interface TextSettings extends ShapeSettings {
   font: string
   text: string
 }
@@ -6,7 +6,6 @@ interface Settings {
 export default class Text {
   ctx: CanvasRenderingContext2D
   allElements: object
-  settings: Settings
 
   font: string
   text: string
@@ -14,7 +13,7 @@ export default class Text {
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: object,
-    settings: Settings
+    settings: TextSettings
   ) {
     this.ctx = ctx
 

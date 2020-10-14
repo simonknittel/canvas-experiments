@@ -1,13 +1,11 @@
 import getCurrent from './utils/get-current'
 
-interface Settings {
-  animate?: boolean
+export interface RotateSettings extends AnimationSettings {
   start?: number
   end?: number
   timingFunction: TimingFunction
   duration?: number
   origin?: [number, number]
-  child: string
 }
 
 export default class Rotate {
@@ -27,12 +25,12 @@ export default class Rotate {
   origin: [number, number]
 
   childKey: string
-  child: ElementConfig
+  child: Settings
 
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: object,
-    settings: Settings
+    settings: RotateSettings
   ) {
     this.ctx = ctx
     this.allElements = allElements

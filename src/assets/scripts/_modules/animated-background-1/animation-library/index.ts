@@ -3,10 +3,10 @@ import { throttle } from 'lodash'
 import ElementsInitializer from './elements-initializer'
 
 export default class AnimationLibrary {
-  container: HTMLElement
+  container
   canvas: HTMLCanvasElement
-  ctx: CanvasRenderingContext2D
-  config: Config
+  ctx
+  config
 
   elementsInitializer: ElementsInitializer
   rootElements: ElementCollection
@@ -28,7 +28,7 @@ export default class AnimationLibrary {
     window.addEventListener('resize', throttledOnResize)
   }
 
-  appendElement(key: string, config: ElementConfig) {
+  appendElement(key: string, config: Settings) {
     if (!this.elementsInitializer) return
     this.elementsInitializer.appendElement(key, config)
     this.rootElements = this.elementsInitializer.getRootElements()
@@ -53,6 +53,8 @@ export default class AnimationLibrary {
 
     if (this.animationFrame) window.cancelAnimationFrame(this.animationFrame)
     this.animationFrame = window.requestAnimationFrame(this.drawLoop.bind(this))
+
+    if (this.config.initialized) this.config.initialized()
   }
 
   drawLoop() {

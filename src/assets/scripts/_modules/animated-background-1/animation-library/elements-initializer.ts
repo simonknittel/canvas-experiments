@@ -1,7 +1,9 @@
+import { ScaleSettings } from './animations/scale';
+import { TranslateSettings } from './animations/translate';
 export default class ElementsInitializer {
   elements: ElementCollection
-  ctx: CanvasRenderingContext2D
-  canvas: HTMLCanvasElement
+  ctx
+  canvas
 
   constructor(
     elements: ElementCollection,
@@ -32,9 +34,30 @@ export default class ElementsInitializer {
       'animations/translate',
       'animations/scale',
     ].indexOf(config.type) >= 0) {
-      if (config.start) config.start = config.start.map(this.replaceValue.bind(this))
-      if (config.end) config.end = config.end.map(this.replaceValue.bind(this))
-      if (config.duration) config.duration = config.duration.map(this.replaceValue.bind(this))
+      // if (config.start) config.start = config.start.map(this.replaceValue.bind(this))
+      // if (config.end) config.end = config.end.map(this.replaceValue.bind(this))
+      // if (config.duration) config.duration = config.duration.map(this.replaceValue.bind(this))
+
+      if ('start' in config) {
+        const c = config as ScaleSettings | TranslateSettings
+        if (Array.isArray(c.start)) {
+          c.start = <[number, number]>c.start.map(this.replaceValue.bind(this))
+        }
+      }
+
+      if ('end' in config) {
+        const c = config as ScaleSettings | TranslateSettings
+        if (Array.isArray(c.end)) {
+          c.end = <[number, number]>c.end.map(this.replaceValue.bind(this))
+        }
+      }
+
+      if ('duration' in config) {
+        const c = config as ScaleSettings | TranslateSettings
+        if (Array.isArray(c.duration)) {
+          c.duration = <[number, number]>c.duration.map(this.replaceValue.bind(this))
+        }
+      }
     }
   }
 
@@ -66,7 +89,7 @@ export default class ElementsInitializer {
     return rootElements
   }
 
-  appendElement(key: string, config: ElementConfig) {
+  appendElement(key: string, config: Settings) {
     this.elements[key] = config
     this.populateElementConfig(key)
     this.createInstance(key)

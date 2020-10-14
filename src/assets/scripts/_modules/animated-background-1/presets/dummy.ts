@@ -1,7 +1,4 @@
-import AnimationLibrary from "../animation-library"
-
 export default class Dummy implements Config {
-  animationLibrary: AnimationLibrary
   animated: boolean
   background: { top: string; bottom: string }
   elements: ElementCollection
@@ -12,7 +9,7 @@ export default class Dummy implements Config {
     this.background = { top: '#0028ad', bottom: '#ffc875' }
 
     this.elements = {
-      bouncyBoi: {
+      bouncyBoi: <any>{
         type: Types.AnimationsTranslate,
         animate: true,
         start: [ 'canvas.width + 200', 400 ],
@@ -23,7 +20,7 @@ export default class Dummy implements Config {
         root: true,
       },
 
-      'bouncyBoi.scale1': {
+      'bouncyBoi.scale1': <any>{
         type: Types.AnimationsScale,
         animate: true,
         end: [ 2, 2 ],
@@ -33,20 +30,20 @@ export default class Dummy implements Config {
         child: 'bouncyBoi.scale1.rotate1',
       },
 
-      'bouncyBoi.scale1.rotate1': {
+      'bouncyBoi.scale1.rotate1': <any>{
         type: Types.AnimationsRotate,
         animate: true,
         origin: [ 50, 50 ],
         child: 'bouncyBoi.scale1.rotate1.box1',
       },
 
-      'bouncyBoi.scale1.rotate1.box1': {
+      'bouncyBoi.scale1.rotate1.box1': <any>{
         type: Types.ShapesBox,
         width: 100,
         height: 100,
       },
 
-      bigBoi: {
+      bigBoi: <any>{
         type: Types.AnimationsTranslate,
         animate: true,
         start: [ 0, -400 ],
@@ -56,7 +53,7 @@ export default class Dummy implements Config {
         root: true,
       },
 
-      'bigBoi.rotate1': {
+      'bigBoi.rotate1': <any>{
         type: Types.AnimationsRotate,
         animate: true,
         origin: [ 150, 150 ],
@@ -64,7 +61,7 @@ export default class Dummy implements Config {
         child: 'bigBoi.rotate1.scale1',
       },
 
-      'bigBoi.rotate1.scale1': {
+      'bigBoi.rotate1.scale1': <any>{
         type: Types.AnimationsScale,
         animate: true,
         end: [ 1, 2 ],
@@ -74,33 +71,33 @@ export default class Dummy implements Config {
         child: 'bigBoi.rotate1.scale1.box1',
       },
 
-      'bigBoi.rotate1.scale1.box1': {
+      'bigBoi.rotate1.scale1.box1': <any>{
         type: Types.ShapesBox,
         width: 300,
         height: 300,
       },
 
-      staticBoi: {
+      staticBoi: <any>{
         type: Types.AnimationsTranslate,
         start: [ 'canvas.width - 300', 100 ],
         child: 'staticBoi.rotate1',
         root: true,
       },
 
-      'staticBoi.rotate1': {
+      'staticBoi.rotate1': <any>{
         type: Types.AnimationsRotate,
         origin: [ 100, 50 ],
         start: Math.PI / 4,
         child: 'staticBoi.rotate1.box1',
       },
 
-      'staticBoi.rotate1.box1': {
+      'staticBoi.rotate1.box1': <any>{
         type: Types.ShapesBox,
         width: 200,
         height: 100,
       },
 
-      textBoi: {
+      textBoi: <any>{
         type: Types.AnimationsTranslate,
         animate: true,
         start: [ 100, 'canvas.height' ],
@@ -110,7 +107,7 @@ export default class Dummy implements Config {
         root: true,
       },
 
-      'textBoi.rotate1': {
+      'textBoi.rotate1': <any>{
         type: Types.AnimationsRotate,
         animate: true,
         origin: [ 100, 50 ],
@@ -118,7 +115,7 @@ export default class Dummy implements Config {
         child: 'textBoi.rotate1.text1',
       },
 
-      'textBoi.rotate1.text1': {
+      'textBoi.rotate1.text1': <any>{
         type: Types.ShapesText,
         font: '50px sans-serif',
         text: 'Wheeeeeeeeeee',
