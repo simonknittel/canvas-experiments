@@ -1,3 +1,20 @@
+const fs = require('fs')
+const path = require('path')
+
+function getWebpackBundles() {
+  let bundles = fs.readdirSync(path.resolve('./dist/assets/js/'))
+  bundles = bundles.filter(bundle => bundle.match(/\.map$/) === null)
+
+  const bundleNames = {}
+
+  for (let i = 0; i < bundles.length; i++) {
+    bundleNames[bundles[i].split('.')[0]] = bundles[i]
+  }
+
+  return bundleNames
+}
+
+
 function returnDataObject(template) {
   const config = require('./config').default
   const fs = require('fs')
@@ -6,7 +23,9 @@ function returnDataObject(template) {
   const slash = process.platform === 'win32' ? '\\' : '/'
   const source = config.paths.src.base + '/' + template.path.replace(process.cwd() + slash + config.paths.src.base.replace('/', slash) + slash, '').replace('.pug', '.yml')
 
-  return yaml.safeLoad(fs.readFileSync(source, 'utf8'))
+  const data = yaml.safeLoad(fs.readFileSync(source, 'utf8'))
+  data.webpackBundles = getWebpackBundles()
+  return data
 }
 
 
@@ -53,7 +72,7 @@ exports.prod = function prod() {
   ])
     .pipe(data(returnDataObject))
     .pipe(pug())
-    .pipe(replace('RANDOMIZE-ME', new Date().getTime()))
+    .pipe(replace('CACHE_BUSTING', new Date().getTime()))
     .pipe(htmlmin({ // Minify the html code
       removeComments: true,
       collapseWhitespace: true,

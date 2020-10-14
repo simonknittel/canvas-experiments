@@ -1,14 +1,10 @@
 const path = require('path')
-const webpack = require('webpack')
 
-
-module.exports = {
-  mode: 'development',
+const config = {
   entry: {
     global: './src/assets/scripts/global.bundle.js',
   },
   output: {
-    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist/assets/js'),
     publicPath: '/assets/js/',
   },
@@ -34,9 +30,25 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-  ],
-  devtool: 'source-map',
   node: false,
+}
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    config.mode = 'development'
+
+    config.output.filename = '[name].bundle.js'
+
+    config.optimization = {
+      moduleIds: 'named'
+    }
+
+    config.devtool = 'source-map'
+  } else if (argv.mode === 'production') {
+    config.mode = 'production'
+
+    config.output.filename = '[name].bundle.[chunkhash].js'
+  }
+
+  return config
 }

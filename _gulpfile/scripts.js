@@ -1,4 +1,7 @@
-function webpackBase(config, done) {
+function webpack(mode, done) {
+  const configFunc = require('../webpack.config')
+  const config = configFunc(null, { mode: mode })
+
   const notifier = require('node-notifier')
   const webpack = require('webpack')
   const compiler = webpack(config)
@@ -30,11 +33,9 @@ function webpackBase(config, done) {
 }
 
 exports.dev = function dev(done) {
-  const devConfig = require('../webpack.config')
-  webpackBase(devConfig, done)
+  webpack('development', done)
 }
 
 exports.prod = function prod(done) {
-  const config = require('../webpack.prod')
-  webpackBase(config, done)
+  webpack('production', done)
 }

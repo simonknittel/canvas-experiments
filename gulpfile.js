@@ -49,10 +49,10 @@ gulp.task('copyToDist', copyToDist)
 
 
 // Default
-gulp.task('default', gulp.series('clean', gulp.parallel('images', 'scripts:dev', gulp.series(gulp.parallel('styles:dev', 'html:dev'), 'html:sitemap'), 'copyToDist')))
+gulp.task('default', gulp.series('clean', gulp.parallel('images', 'scripts:dev', 'styles:dev', 'copyToDist'), 'html:dev', 'html:sitemap'))
 
 // Production
-gulp.task('production', gulp.series('clean', gulp.parallel('images', 'scripts:prod', gulp.series(gulp.parallel('styles:prod', 'html:prod'), gulp.parallel('styles:critical', 'html:sitemap')), 'copyToDist')))
+gulp.task('production', gulp.series('clean', gulp.parallel('images', 'scripts:prod', 'styles:prod', 'copyToDist'), 'html:prod', gulp.parallel('html:sitemap', 'styles:critical')))
 
 
 // Watch

@@ -78,7 +78,7 @@ export default class ElementsInitializer {
   }
 
   getRootElements() {
-    const rootElements = {}
+    const rootElements: ElementCollection = {}
 
     for (const key in this.elements) {
       if (!this.elements.hasOwnProperty(key)) continue

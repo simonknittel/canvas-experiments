@@ -10,7 +10,7 @@ export interface RotateSettings extends AnimationSettings {
 
 export default class Rotate {
   ctx: CanvasRenderingContext2D
-  allElements: object
+  allElements: ElementCollection
 
   animate: boolean
 
@@ -29,7 +29,7 @@ export default class Rotate {
 
   constructor(
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: RotateSettings
   ) {
     this.ctx = ctx

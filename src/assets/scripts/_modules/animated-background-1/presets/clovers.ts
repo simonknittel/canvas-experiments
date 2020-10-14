@@ -10,6 +10,9 @@ export default class Clovers implements Config {
   duration: number
 
   boundGenerateRowOfParticles: any
+  timeout: number
+  timeoutInterval: number
+  columnWidth: number
 
   constructor(animationLibrary: AnimationLibrary) {
     this.animationLibrary = animationLibrary
@@ -19,7 +22,6 @@ export default class Clovers implements Config {
       bottom: '#94d1a5',
     }
 
-    this.generatedRows = 0
     this.rowLimit = 5
     this.duration = 30000
 
@@ -27,35 +29,42 @@ export default class Clovers implements Config {
   }
 
   initialized() {
+    this.reset()
     this.boundGenerateRowOfParticles()
+  }
+
+  reset() {
+    window.clearTimeout(this.timeout)
+    this.generatedRows = 0
+    this.columnWidth = this.animationLibrary.canvas.width / 7
+    this.timeoutInterval = this.duration / this.rowLimit
   }
 
   generateRowOfParticles() {
     this.generatedRows++
 
     const even = this.generatedRows % 2 === 0
-    const columnWidth = this.animationLibrary.canvas.width / 7
 
     if (even) {
-      this.generateParticle(columnWidth * 1 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 2 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 3 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 4 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 5 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 6 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 7 - columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 1 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 2 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 3 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 4 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 5 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 6 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 7 - this.columnWidth / 2, false)
     } else {
-      this.generateParticle(columnWidth * 1 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 2 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 3 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 4 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 5 - columnWidth / 2, true)
-      this.generateParticle(columnWidth * 6 - columnWidth / 2, false)
-      this.generateParticle(columnWidth * 7 - columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 1 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 2 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 3 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 4 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 5 - this.columnWidth / 2, true)
+      this.generateParticle(this.columnWidth * 6 - this.columnWidth / 2, false)
+      this.generateParticle(this.columnWidth * 7 - this.columnWidth / 2, true)
     }
 
     if (this.generatedRows >= this.rowLimit) return
-    setTimeout(this.boundGenerateRowOfParticles, this.duration / this.rowLimit)
+    this.timeout = window.setTimeout(this.boundGenerateRowOfParticles, this.timeoutInterval)
   }
 
   generateParticle(xAxis: number, large: boolean) {
@@ -78,9 +87,6 @@ export default class Clovers implements Config {
       start: [ -size / 2, -size / 2 ],
       local: true,
       child: `particle${id}.rotate`,
-      debug: {
-        showOrigin: 'red'
-      },
     })
 
     this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
@@ -97,7 +103,7 @@ export default class Clovers implements Config {
       url: 'https://webstockreview.net/images/clover-clipart-14.png',
       width: size,
       height: size,
-      transparency: .5
+      transparency: .2
     })
   }
 

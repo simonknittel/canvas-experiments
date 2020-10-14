@@ -10,6 +10,8 @@ export default class Flowers implements Config {
 
   boundGenerateParticle: any
 
+  timeout: number
+
   constructor(animationLibrary: AnimationLibrary) {
     this.animationLibrary = animationLibrary
     this.animated = true
@@ -25,13 +27,21 @@ export default class Flowers implements Config {
   }
 
   initialized() {
+    this.reset()
     this.boundGenerateParticle()
+  }
+
+  reset() {
+    window.clearTimeout(this.timeout)
+    this.generatedParticles = 0
   }
 
   generateParticle() {
     const id = this.getRandomBetween(0, 999999)
 
-    const xAxis = `Math.floor(${Math.random()} * canvas.width)`
+    const rand = Math.random()
+
+    const xAxis = `Math.floor(${rand} * canvas.width)`
     const size = this.getRandomBetween(20, 150)
     const duration = this.getRandomBetween(10000, 20000)
 
@@ -58,7 +68,7 @@ export default class Flowers implements Config {
     this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
-      end: Math.random() >= .5 ? Math.PI * 2 : -Math.PI * 2,
+      end: rand >= .5 ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
       child: `particle${id}.img`,
@@ -73,7 +83,7 @@ export default class Flowers implements Config {
 
     this.generatedParticles++
     if (this.generatedParticles >= this.particleLimit) return
-    setTimeout(this.boundGenerateParticle, this.getRandomBetween(600, 800))
+    this.timeout = window.setTimeout(this.boundGenerateParticle, this.getRandomBetween(600, 800))
   }
 
   getRandomBetween(min: number, max: number) {

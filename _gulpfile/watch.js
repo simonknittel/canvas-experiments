@@ -11,7 +11,8 @@ exports.watch = function watch() {
   }))
 
   const webpack = require('webpack')
-  const webpackConfig = require('../webpack.config')
+  const webpackConfigFunc = require('../webpack.config')
+  const webpackConfig = webpackConfigFunc(null, { mode: 'development' })
   const compiler = webpack(webpackConfig)
   compiler.watch({}, (err, stats) => {
     if (err) {

@@ -10,7 +10,7 @@ export interface ScaleSettings extends AnimationSettings {
 
 export default class Scale {
   ctx: CanvasRenderingContext2D
-  allElements: object
+  allElements: ElementCollection
 
   animate: boolean
 
@@ -29,7 +29,7 @@ export default class Scale {
 
   constructor(
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: ScaleSettings
   ) {
     this.ctx = ctx

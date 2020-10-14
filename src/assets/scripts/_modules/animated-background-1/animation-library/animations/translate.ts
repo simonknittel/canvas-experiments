@@ -7,14 +7,11 @@ export interface TranslateSettings extends AnimationSettings {
   duration?: [number, number]
   origin?: [number, number]
   local?: boolean
-  debug?: {
-    showOrigin?: string
-  }
 }
 
 export default class Translate {
   ctx: CanvasRenderingContext2D
-  allElements: object
+  allElements: ElementCollection
 
   animate: boolean
 
@@ -31,13 +28,9 @@ export default class Translate {
   childKey: string
   child: Settings
 
-  debug?: {
-    showOrigin?: string
-  }
-
   constructor(
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: TranslateSettings
   ) {
     this.ctx = ctx
@@ -56,19 +49,10 @@ export default class Translate {
     this.local = settings.local || false
 
     this.childKey = settings.child
-
-    this.debug = settings.debug
   }
 
   update(timeDelta = 0) {
     if (!this.local) this.ctx.save()
-
-    if (this.debug && this.debug.showOrigin) {
-      this.ctx.beginPath();
-      this.ctx.ellipse(0, 0, 5, 5, 0, 0, Math.PI * 2)
-      this.ctx.fillStyle = this.debug.showOrigin
-      this.ctx.fill()
-    }
 
     this.translate(timeDelta)
     this.updateChild(timeDelta)
