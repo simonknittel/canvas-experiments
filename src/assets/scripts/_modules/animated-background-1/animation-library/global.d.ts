@@ -23,7 +23,6 @@ declare global {
 
   interface BaseSettings {
     type: Types
-    child?: string
     root?: boolean
     initializedInstance?:
       | Rotate
@@ -36,6 +35,7 @@ declare global {
 
   interface AnimationSettings extends BaseSettings {
     animate?: boolean
+    children?: string[]
   }
 
   interface ShapeSettings extends BaseSettings {}

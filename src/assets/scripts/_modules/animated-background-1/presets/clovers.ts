@@ -22,7 +22,7 @@ export default class Clovers implements Config {
       bottom: '#94d1a5',
     }
 
-    this.rowLimit = 5
+    this.rowLimit = 4
     this.duration = 30000
 
     this.boundGenerateRowOfParticles = this.generateRowOfParticles.bind(this)
@@ -43,62 +43,68 @@ export default class Clovers implements Config {
   generateRowOfParticles() {
     this.generatedRows++
 
-    const even = this.generatedRows % 2 === 0
+    const rowId = this.generatedRows
 
-    if (even) {
-      this.generateParticle(this.columnWidth * 1 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 2 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 3 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 4 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 5 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 6 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 7 - this.columnWidth / 2, false)
+    this.animationLibrary.appendElement(`row${rowId}`, <any>{
+      type: Types.AnimationsTranslate,
+      start: [ 0, 'canvas.height + 100' ],
+      end: [ 0, -100 ],
+      duration: [ this.duration, this.duration ],
+      animate: true,
+      children: [
+        `row${rowId}.particle1.translate`,
+        `row${rowId}.particle2.translate`,
+        `row${rowId}.particle3.translate`,
+        `row${rowId}.particle4.translate`,
+        `row${rowId}.particle5.translate`,
+        `row${rowId}.particle6.translate`,
+        `row${rowId}.particle7.translate`,
+      ],
+      root: true,
+    })
+
+    if (this.generatedRows % 2 === 0) {
+      this.generateParticle(rowId, 1, false)
+      this.generateParticle(rowId, 2, true)
+      this.generateParticle(rowId, 3, false)
+      this.generateParticle(rowId, 4, true)
+      this.generateParticle(rowId, 5, false)
+      this.generateParticle(rowId, 6, true)
+      this.generateParticle(rowId, 7, false)
     } else {
-      this.generateParticle(this.columnWidth * 1 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 2 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 3 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 4 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 5 - this.columnWidth / 2, true)
-      this.generateParticle(this.columnWidth * 6 - this.columnWidth / 2, false)
-      this.generateParticle(this.columnWidth * 7 - this.columnWidth / 2, true)
+      this.generateParticle(rowId, 1, true)
+      this.generateParticle(rowId, 2, false)
+      this.generateParticle(rowId, 3, true)
+      this.generateParticle(rowId, 4, false)
+      this.generateParticle(rowId, 5, true)
+      this.generateParticle(rowId, 6, false)
+      this.generateParticle(rowId, 7, true)
     }
 
     if (this.generatedRows >= this.rowLimit) return
     this.timeout = window.setTimeout(this.boundGenerateRowOfParticles, this.timeoutInterval)
   }
 
-  generateParticle(xAxis: number, large: boolean) {
-    const id = this.getRandomBetween(0, 999999)
-
+  generateParticle(rowId: number, particleId: number, large: boolean) {
     const size = large ? 100 : 50
+    const xAxis = this.columnWidth * particleId - this.columnWidth / 2
 
-    this.animationLibrary.appendElement(`particle${id}`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <any>{
       type: Types.AnimationsTranslate,
-      start: [ xAxis, 'canvas.height + 100' ],
-      end: [ xAxis, -100 ],
-      duration: [ this.duration, this.duration ],
-      animate: true,
-      child: `particle${id}.translate`,
-      root: true,
+      start: [ xAxis - size / 2, - size / 2 ],
+      children: [`row${rowId}.particle${particleId}.rotate`],
     })
 
-    this.animationLibrary.appendElement(`particle${id}.translate`, <any>{
-      type: Types.AnimationsTranslate,
-      start: [ -size / 2, -size / 2 ],
-      local: true,
-      child: `particle${id}.rotate`,
-    })
-
-    this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.rotate`, <any>{
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
       end: large ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
-      child: `particle${id}.img`,
+      children: [`row${rowId}.particle${particleId}.img`],
     })
 
-    this.animationLibrary.appendElement(`particle${id}.img`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.img`, <any>{
       type: Types.ShapesImg,
       url: 'https://webstockreview.net/images/clover-clipart-14.png',
       width: size,

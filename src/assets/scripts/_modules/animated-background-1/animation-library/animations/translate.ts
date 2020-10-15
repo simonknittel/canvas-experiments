@@ -25,8 +25,7 @@ export default class Translate {
 
   local: boolean
 
-  childKey: string
-  child: Settings
+  childrenKeys: string[]
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -48,14 +47,14 @@ export default class Translate {
 
     this.local = settings.local || false
 
-    this.childKey = settings.child
+    this.childrenKeys = settings.children
   }
 
   update(timeDelta = 0) {
     if (!this.local) this.ctx.save()
 
     this.translate(timeDelta)
-    this.updateChild(timeDelta)
+    this.updateChildren(timeDelta)
 
     if (!this.local) this.ctx.restore()
   }
@@ -97,10 +96,11 @@ export default class Translate {
     this.ctx.translate(this.current[0], this.current[1])
   }
 
-  updateChild(timeDelta: number) {
-    if (!this.child) this.child = this.allElements[this.childKey]
-
-    if (!this.child.initializedInstance) return
-    this.child.initializedInstance.update(timeDelta)
+  updateChildren(timeDelta: number) {
+    this.childrenKeys.forEach(childKey => {
+      const child = this.allElements[childKey]
+      if (!child.initializedInstance) return
+      child.initializedInstance.update(timeDelta)
+    })
   }
 }

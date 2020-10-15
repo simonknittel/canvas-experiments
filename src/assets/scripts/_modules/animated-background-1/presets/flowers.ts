@@ -51,7 +51,7 @@ export default class Flowers implements Config {
       end: [ xAxis, -size ],
       duration: [ duration, duration ],
       animate: true,
-      child: `particle${id}.translate`,
+      children: [`particle${id}.translate`],
       root: true,
     })
 
@@ -62,7 +62,7 @@ export default class Flowers implements Config {
       animate: true,
       timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
       local: true,
-      child: `particle${id}.rotate`,
+      children: [`particle${id}.rotate`],
     })
 
     this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
@@ -71,7 +71,7 @@ export default class Flowers implements Config {
       end: rand >= .5 ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
-      child: `particle${id}.img`,
+      children: [`particle${id}.img`],
     })
 
     this.animationLibrary.appendElement(`particle${id}.img`, <any>{

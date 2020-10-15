@@ -24,8 +24,7 @@ export default class Rotate {
 
   origin: [number, number]
 
-  childKey: string
-  child: Settings
+  childrenKeys: string[]
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -47,7 +46,7 @@ export default class Rotate {
 
     this.origin = settings.origin || [ 0, 0 ]
 
-    this.childKey = settings.child
+    this.childrenKeys = settings.children
   }
 
   update(timeDelta = 0) {
@@ -56,7 +55,7 @@ export default class Rotate {
     this.moveOrigin()
     this.rotate(timeDelta)
     this.resetOrigin()
-    this.updateChild(timeDelta)
+    this.updateChildren(timeDelta)
 
     this.ctx.restore()
   }
@@ -89,10 +88,11 @@ export default class Rotate {
     this.ctx.rotate(this.current)
   }
 
-  updateChild(timeDelta: number) {
-    if (!this.child) this.child = this.allElements[this.childKey]
-
-    if (!this.child.initializedInstance) return
-    this.child.initializedInstance.update(timeDelta)
+  updateChildren(timeDelta: number) {
+    this.childrenKeys.forEach(childKey => {
+      const child = this.allElements[childKey]
+      if (!child.initializedInstance) return
+      child.initializedInstance.update(timeDelta)
+    })
   }
 }
