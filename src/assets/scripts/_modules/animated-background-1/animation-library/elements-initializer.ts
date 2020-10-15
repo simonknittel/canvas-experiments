@@ -1,5 +1,6 @@
 import { ScaleSettings } from './animations/scale';
 import { TranslateSettings } from './animations/translate';
+
 export default class ElementsInitializer {
   elements: ElementCollection
   ctx
@@ -30,14 +31,11 @@ export default class ElementsInitializer {
 
   populateElementConfig(key: string) {
     const config = this.elements[key]
+
     if ([
       'animations/translate',
       'animations/scale',
     ].indexOf(config.type) >= 0) {
-      // if (config.start) config.start = config.start.map(this.replaceValue.bind(this))
-      // if (config.end) config.end = config.end.map(this.replaceValue.bind(this))
-      // if (config.duration) config.duration = config.duration.map(this.replaceValue.bind(this))
-
       if ('start' in config) {
         const c = config as ScaleSettings | TranslateSettings
         if (Array.isArray(c.start)) {
@@ -73,8 +71,16 @@ export default class ElementsInitializer {
 
   createInstance(key: string) {
     const config = this.elements[key]
-    const Cls = require(`./${config.type}.ts`).default
-    config.initializedInstance = new Cls(this.ctx, this.elements, config)
+
+    let Cls = null
+
+    if ('class' in config) {
+      Cls = config.class
+    } else {
+      Cls = require(`./${config.type}.ts`).default
+    }
+
+    config.initializedInstance = new Cls(this.canvas, this.ctx, this.elements, config)
   }
 
   getRootElements() {

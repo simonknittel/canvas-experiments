@@ -6,8 +6,7 @@ export interface ImgSettings extends ShapeSettings {
 }
 
 export default class Img {
-  ctx: CanvasRenderingContext2D
-  allElements: object
+  ctx
 
   url: string
   width: number
@@ -17,8 +16,9 @@ export default class Img {
   transparency: number
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: ImgSettings
   ) {
     this.ctx = ctx

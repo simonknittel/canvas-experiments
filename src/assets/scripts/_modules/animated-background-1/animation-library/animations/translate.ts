@@ -1,4 +1,4 @@
-import Animation from './animation'
+import AnimationElement from './animation-element'
 
 export interface TranslateSettings extends AnimationSettings {
   start?: [number, number]
@@ -9,7 +9,7 @@ export interface TranslateSettings extends AnimationSettings {
   local?: boolean
 }
 
-export default class Translate extends Animation {
+export default class Translate extends AnimationElement {
   start: [number, number]
   current: [number, number]
   end: [number, number]
@@ -21,11 +21,12 @@ export default class Translate extends Animation {
   local: boolean
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: TranslateSettings
   ) {
-    super(ctx, allElements, settings)
+    super(canvas, ctx, allElements, settings)
 
     this.start = settings.start || [ 0, 0 ]
     this.current = [ ...this.start ]

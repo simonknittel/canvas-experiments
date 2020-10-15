@@ -6,8 +6,7 @@ export interface BoxSettings extends ShapeSettings {
 }
 
 export default class Box {
-  ctx: CanvasRenderingContext2D
-  allElements: object
+  ctx
 
   width: number
   height: number
@@ -15,13 +14,15 @@ export default class Box {
   transparency: number
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: BoxSettings
   ) {
     this.ctx = ctx
 
     this.width = settings.width || 100
+    this.height = settings.height || 100
     this.height = settings.height || 100
     this.fillStyle = settings.fillStyle || '#000'
 

@@ -1,4 +1,4 @@
-import Animation from './animation'
+import AnimationElement from './animation-element'
 
 export interface RotateSettings extends AnimationSettings {
   start?: number
@@ -8,7 +8,7 @@ export interface RotateSettings extends AnimationSettings {
   origin?: [number, number]
 }
 
-export default class Rotate extends Animation {
+export default class Rotate extends AnimationElement {
   start: number
   current: number
   end: number
@@ -20,11 +20,12 @@ export default class Rotate extends Animation {
   origin: [number, number]
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: RotateSettings
   ) {
-    super(ctx, allElements, settings)
+    super(canvas, ctx, allElements, settings)
 
     this.start = settings.start || 0
     this.current = this.start

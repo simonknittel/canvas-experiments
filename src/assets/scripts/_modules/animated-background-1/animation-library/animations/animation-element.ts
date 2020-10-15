@@ -1,20 +1,20 @@
+import Element from "../element"
 import getCurrent from "./utils/get-current"
 
-export default class Animation {
-  ctx
-  allElements
+export default class AnimationElement extends Element {
   animate: boolean
   childrenKeys: string[]
 
   getCurrent
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: AnimationSettings
   ) {
-    this.ctx = ctx
-    this.allElements = allElements
+    super(canvas, ctx, allElements)
+
     this.animate = settings.animate || false
     this.childrenKeys = settings.children
 

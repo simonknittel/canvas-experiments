@@ -1,4 +1,5 @@
 import AnimationLibrary from "../animation-library"
+import Element from "../animation-library/element"
 
 export default class Clovers implements Config {
   animationLibrary
@@ -30,6 +31,7 @@ export default class Clovers implements Config {
 
   initialized() {
     this.reset()
+    this.generateBackground()
     this.boundGenerateRowOfParticles()
   }
 
@@ -38,6 +40,30 @@ export default class Clovers implements Config {
     this.generatedRows = 0
     this.columnWidth = this.animationLibrary.canvas.width / 7
     this.timeoutInterval = this.duration / this.rowLimit
+  }
+
+  generateBackground() {
+    this.animationLibrary.appendElement('background', <any>{
+      type: 'custom',
+      class: class Background extends Element {
+        update() {
+          const ctx = this.ctx
+          const canvas = this.canvas
+
+          ctx.save()
+
+          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+          gradient.addColorStop(0, '#94d1a5')
+          gradient.addColorStop(1, '#94d1a5')
+
+          ctx.fillStyle = gradient
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+          ctx.restore()
+        }
+      },
+      root: true
+    })
   }
 
   generateRowOfParticles() {

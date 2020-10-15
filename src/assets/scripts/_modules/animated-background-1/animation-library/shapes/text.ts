@@ -4,15 +4,15 @@ export interface TextSettings extends ShapeSettings {
 }
 
 export default class Text {
-  ctx: CanvasRenderingContext2D
-  allElements: object
+  ctx
 
   font: string
   text: string
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
-    allElements: object,
+    allElements: ElementCollection,
     settings: TextSettings
   ) {
     this.ctx = ctx

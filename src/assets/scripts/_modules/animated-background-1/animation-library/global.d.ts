@@ -2,6 +2,7 @@ import AnimationLibrary from ".";
 import Rotate, { RotateSettings } from "./animations/rotate";
 import Scale, { ScaleSettings } from "./animations/scale";
 import Translate, { TranslateSettings } from "./animations/translate";
+import Element from "./element";
 import Box, { BoxSettings } from "./shapes/box";
 import Img, { ImgSettings } from "./shapes/img";
 import Text, { TextSettings } from "./shapes/text";
@@ -22,7 +23,8 @@ declare global {
   }
 
   interface BaseSettings {
-    type: Types
+    type: Types | 'custom'
+    class?: any
     root?: boolean
     initializedInstance?:
       | Rotate
@@ -62,7 +64,6 @@ declare global {
   interface Config {
     animationLibrary?: AnimationLibrary
     animated?: boolean
-    background: { top: string, bottom: string }
     elements?: ElementCollection
 
     initialized?: Function

@@ -1,9 +1,9 @@
 import AnimationLibrary from "../animation-library"
+import Element from "../animation-library/element"
 
 export default class Flowers implements Config {
-  animationLibrary: AnimationLibrary
-  animated: boolean
-  background: { top: string; bottom: string }
+  animationLibrary
+  animated
 
   generatedParticles: number
   particleLimit: number
@@ -15,10 +15,6 @@ export default class Flowers implements Config {
   constructor(animationLibrary: AnimationLibrary) {
     this.animationLibrary = animationLibrary
     this.animated = true
-    this.background = {
-      top: 'hsl(342, 100%, 75%)',
-      bottom: '#ffc875',
-    }
 
     this.generatedParticles = 0
     this.particleLimit = 30
@@ -28,12 +24,37 @@ export default class Flowers implements Config {
 
   initialized() {
     this.reset()
+    this.generateBackground()
     this.boundGenerateParticle()
   }
 
   reset() {
     window.clearTimeout(this.timeout)
     this.generatedParticles = 0
+  }
+
+  generateBackground() {
+    this.animationLibrary.appendElement('background', <any>{
+      type: 'custom',
+      class: class Background extends Element {
+        update() {
+          const ctx = this.ctx
+          const canvas = this.canvas
+
+          ctx.save()
+
+          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+          gradient.addColorStop(0, 'hsl(342, 100%, 75%)')
+          gradient.addColorStop(1, '#ffc875')
+
+          ctx.fillStyle = gradient
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+          ctx.restore()
+        }
+      },
+      root: true
+    })
   }
 
   generateParticle() {

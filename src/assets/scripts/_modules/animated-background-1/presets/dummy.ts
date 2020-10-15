@@ -1,5 +1,5 @@
 export default class Dummy implements Config {
-  animated: boolean
+  animated
   background: { top: string; bottom: string }
   elements: ElementCollection
 

@@ -1,4 +1,4 @@
-import Animation from './animation'
+import AnimationElement from './animation-element'
 
 export interface ScaleSettings extends AnimationSettings {
   start?: [number, number]
@@ -8,7 +8,7 @@ export interface ScaleSettings extends AnimationSettings {
   origin?: [number, number]
 }
 
-export default class Scale extends Animation {
+export default class Scale extends AnimationElement {
   start: [number, number]
   current: [number, number]
   end: [number, number]
@@ -20,11 +20,12 @@ export default class Scale extends Animation {
   origin: [number, number]
 
   constructor(
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: ScaleSettings
   ) {
-    super(ctx, allElements, settings)
+    super(canvas, ctx, allElements, settings)
 
     this.start = settings.start || [ 1, 1 ]
     this.current = [ ...this.start ]

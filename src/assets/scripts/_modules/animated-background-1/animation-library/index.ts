@@ -61,8 +61,6 @@ export default class AnimationLibrary {
     const now = new Date().getTime()
     const timeDelta = now - this.prevTime
 
-    this.drawBackground()
-
     for (const key in this.rootElements) {
       if (!this.rootElements.hasOwnProperty(key)) continue
       this.rootElements[key].initializedInstance.update(timeDelta)
@@ -72,14 +70,5 @@ export default class AnimationLibrary {
 
     if (!this.config.animated) return
     this.animationFrame = window.requestAnimationFrame(this.drawLoop.bind(this))
-  }
-
-  drawBackground() {
-    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-    gradient.addColorStop(0, this.config.background.top)
-    gradient.addColorStop(1, this.config.background.bottom)
-
-    this.ctx.fillStyle = gradient
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }
