@@ -1,4 +1,4 @@
-import getCurrent from './utils/get-current'
+import Animation from './animation'
 
 export interface TranslateSettings extends AnimationSettings {
   start?: [number, number]
@@ -9,12 +9,7 @@ export interface TranslateSettings extends AnimationSettings {
   local?: boolean
 }
 
-export default class Translate {
-  ctx: CanvasRenderingContext2D
-  allElements: ElementCollection
-
-  animate: boolean
-
+export default class Translate extends Animation {
   start: [number, number]
   current: [number, number]
   end: [number, number]
@@ -25,17 +20,12 @@ export default class Translate {
 
   local: boolean
 
-  childrenKeys: string[]
-
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: TranslateSettings
   ) {
-    this.ctx = ctx
-    this.allElements = allElements
-
-    this.animate = settings.animate || false
+    super(ctx, allElements, settings)
 
     this.start = settings.start || [ 0, 0 ]
     this.current = [ ...this.start ]
@@ -46,8 +36,6 @@ export default class Translate {
     this.elapsedTime = [ 0, 0 ]
 
     this.local = settings.local || false
-
-    this.childrenKeys = settings.children
   }
 
   update(timeDelta = 0) {
@@ -67,7 +55,7 @@ export default class Translate {
       ]
 
       // X
-      const rtn0 = getCurrent(
+      const rtn0 = this.getCurrent(
         this.start[0],
         this.end[0],
         this.current[0],
@@ -80,7 +68,7 @@ export default class Translate {
       this.elapsedTime[0] = rtn0.elapsedTime
 
       // Y
-      const rtn1 = getCurrent(
+      const rtn1 = this.getCurrent(
         this.start[1],
         this.end[1],
         this.current[1],
@@ -94,13 +82,5 @@ export default class Translate {
     }
 
     this.ctx.translate(this.current[0], this.current[1])
-  }
-
-  updateChildren(timeDelta: number) {
-    this.childrenKeys.forEach(childKey => {
-      const child = this.allElements[childKey]
-      if (!child.initializedInstance) return
-      child.initializedInstance.update(timeDelta)
-    })
   }
 }

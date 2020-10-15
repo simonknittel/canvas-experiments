@@ -1,4 +1,4 @@
-import getCurrent from './utils/get-current'
+import Animation from './animation'
 
 export interface RotateSettings extends AnimationSettings {
   start?: number
@@ -8,12 +8,7 @@ export interface RotateSettings extends AnimationSettings {
   origin?: [number, number]
 }
 
-export default class Rotate {
-  ctx: CanvasRenderingContext2D
-  allElements: ElementCollection
-
-  animate: boolean
-
+export default class Rotate extends Animation {
   start: number
   current: number
   end: number
@@ -24,17 +19,12 @@ export default class Rotate {
 
   origin: [number, number]
 
-  childrenKeys: string[]
-
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: RotateSettings
   ) {
-    this.ctx = ctx
-    this.allElements = allElements
-
-    this.animate = settings.animate || false
+    super(ctx, allElements, settings)
 
     this.start = settings.start || 0
     this.current = this.start
@@ -45,8 +35,6 @@ export default class Rotate {
     this.elapsedTime = 0
 
     this.origin = settings.origin || [ 0, 0 ]
-
-    this.childrenKeys = settings.children
   }
 
   update(timeDelta = 0) {
@@ -72,7 +60,7 @@ export default class Rotate {
     if (this.animate) {
       this.elapsedTime += timeDelta
 
-      const rtn = getCurrent(
+      const rtn = this.getCurrent(
         this.start,
         this.end,
         this.current,
@@ -86,13 +74,5 @@ export default class Rotate {
     }
 
     this.ctx.rotate(this.current)
-  }
-
-  updateChildren(timeDelta: number) {
-    this.childrenKeys.forEach(childKey => {
-      const child = this.allElements[childKey]
-      if (!child.initializedInstance) return
-      child.initializedInstance.update(timeDelta)
-    })
   }
 }

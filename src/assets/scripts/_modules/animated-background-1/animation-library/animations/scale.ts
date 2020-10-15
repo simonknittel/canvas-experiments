@@ -1,4 +1,4 @@
-import getCurrent from './utils/get-current'
+import Animation from './animation'
 
 export interface ScaleSettings extends AnimationSettings {
   start?: [number, number]
@@ -8,12 +8,7 @@ export interface ScaleSettings extends AnimationSettings {
   origin?: [number, number]
 }
 
-export default class Scale {
-  ctx: CanvasRenderingContext2D
-  allElements: ElementCollection
-
-  animate: boolean
-
+export default class Scale extends Animation {
   start: [number, number]
   current: [number, number]
   end: [number, number]
@@ -24,17 +19,12 @@ export default class Scale {
 
   origin: [number, number]
 
-  childrenKeys: string[]
-
   constructor(
     ctx: CanvasRenderingContext2D,
     allElements: ElementCollection,
     settings: ScaleSettings
   ) {
-    this.ctx = ctx
-    this.allElements = allElements
-
-    this.animate = settings.animate || false
+    super(ctx, allElements, settings)
 
     this.start = settings.start || [ 1, 1 ]
     this.current = [ ...this.start ]
@@ -45,8 +35,6 @@ export default class Scale {
     this.elapsedTime = [ 0, 0 ]
 
     this.origin = settings.origin || [ 0, 0 ]
-
-    this.childrenKeys = settings.children
   }
 
   update(timeDelta = 0) {
@@ -76,7 +64,7 @@ export default class Scale {
       ]
 
       // X
-      const rtn0 = getCurrent(
+      const rtn0 = this.getCurrent(
         this.start[0],
         this.end[0],
         this.current[0],
@@ -89,7 +77,7 @@ export default class Scale {
       this.elapsedTime[0] = rtn0.elapsedTime
 
       // Y
-      const rtn1 = getCurrent(
+      const rtn1 = this.getCurrent(
         this.start[1],
         this.end[1],
         this.current[1],
@@ -103,13 +91,5 @@ export default class Scale {
     }
 
     this.ctx.scale(this.current[0], this.current[1])
-  }
-
-  updateChildren(timeDelta: number) {
-    this.childrenKeys.forEach(childKey => {
-      const child = this.allElements[childKey]
-      if (!child.initializedInstance) return
-      child.initializedInstance.update(timeDelta)
-    })
   }
 }
