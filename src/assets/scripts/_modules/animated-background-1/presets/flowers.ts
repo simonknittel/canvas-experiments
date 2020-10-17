@@ -62,13 +62,13 @@ export default class Flowers implements Config {
 
     const rand = Math.random()
 
-    const xAxis = `Math.floor(${rand} * canvas.width)`
+    const xAxis = Math.floor(rand * this.animationLibrary.canvas.width)
     const size = this.getRandomBetween(20, 150)
     const duration = this.getRandomBetween(10000, 20000)
 
     this.animationLibrary.appendElement(`particle${id}`, <any>{
       type: Types.AnimationsTranslate,
-      start: [ xAxis, 'canvas.height' ],
+      start: [ xAxis, this.animationLibrary.canvas.height ],
       end: [ xAxis, -size ],
       duration: [ duration, duration ],
       animate: true,

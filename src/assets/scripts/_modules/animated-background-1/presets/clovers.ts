@@ -18,10 +18,6 @@ export default class Clovers implements Config {
   constructor(animationLibrary: AnimationLibrary) {
     this.animationLibrary = animationLibrary
     this.animated = true
-    this.background = {
-      top: '#94d1a5',
-      bottom: '#94d1a5',
-    }
 
     this.rowLimit = 4
     this.duration = 30000
@@ -73,7 +69,7 @@ export default class Clovers implements Config {
 
     this.animationLibrary.appendElement(`row${rowId}`, <any>{
       type: Types.AnimationsTranslate,
-      start: [ 0, 'canvas.height + 100' ],
+      start: [ 0, this.animationLibrary.canvas.height + 100 ],
       end: [ 0, -100 ],
       duration: [ this.duration, this.duration ],
       animate: true,
@@ -109,11 +105,15 @@ export default class Clovers implements Config {
     }
 
     if (this.generatedRows >= this.rowLimit) return
-    this.timeout = window.setTimeout(this.boundGenerateRowOfParticles, this.timeoutInterval)
+
+    this.timeout = window.setTimeout(
+      this.boundGenerateRowOfParticles,
+      this.timeoutInterval
+    )
   }
 
   generateParticle(rowId: number, particleId: number, large: boolean) {
-    const size = large ? 100 : 50
+    const size = this.animationLibrary.canvas.width / (large ? 20 : 40)
     const xAxis = this.columnWidth * particleId - this.columnWidth / 2
 
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <TranslateSettings>{
