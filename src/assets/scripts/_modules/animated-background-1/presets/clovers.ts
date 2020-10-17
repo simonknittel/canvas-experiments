@@ -64,7 +64,8 @@ export default class Clovers implements Config {
       type: 'custom',
       class: class FPS extends Element {
         skip: boolean
-        fps: number
+        lastFPS: number
+        lowestFPS: number
 
         constructor(
           canvas: HTMLCanvasElement,
@@ -80,17 +81,14 @@ export default class Clovers implements Config {
         }
 
         update(timeDelta: number) {
-          if (!this.skip) {
-            this.calculateFPS(timeDelta)
-            this.skip = true
-          }
+          this.calculateFPS(timeDelta)
 
           this.ctx.save()
 
           this.ctx.fillStyle = '#000'
           this.ctx.font = '16px sans-serif'
           this.ctx.fillText(
-            this.fps.toString(),
+            this.lastFPS.toString(),
             10,
             24,
           )
@@ -99,7 +97,17 @@ export default class Clovers implements Config {
         }
 
         calculateFPS(timeDelta: number) {
-          this.fps = Math.round(1000 / timeDelta)
+          const currentFPS = Math.round(1000 / timeDelta)
+          if (
+            this.lowestFPS === undefined
+            || currentFPS < this.lowestFPS
+          ) this.lowestFPS = currentFPS
+
+          if (this.skip) return
+          this.skip = true
+
+          this.lastFPS = this.lowestFPS
+          this.lowestFPS = undefined
         }
       },
       root: true
