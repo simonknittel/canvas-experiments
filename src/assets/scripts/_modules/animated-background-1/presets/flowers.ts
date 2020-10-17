@@ -76,7 +76,7 @@ export default class Flowers implements Config {
       root: true,
     })
 
-    this.animationLibrary.appendElement(`particle${id}.translate`, <any>{
+    this.animationLibrary.appendElement(`particle${id}.translate`, <TranslateSettings>{
       type: Types.AnimationsTranslate,
       end: [ 200, 0 ],
       duration: [ 5000, 5000 ],
@@ -86,7 +86,7 @@ export default class Flowers implements Config {
       childrenKeys: [`particle${id}.rotate`],
     })
 
-    this.animationLibrary.appendElement(`particle${id}.rotate`, <any>{
+    this.animationLibrary.appendElement(`particle${id}.rotate`, <RotateSettings>{
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
       end: rand >= .5 ? Math.PI * 2 : -Math.PI * 2,
@@ -95,7 +95,7 @@ export default class Flowers implements Config {
       childrenKeys: [`particle${id}.img`],
     })
 
-    this.animationLibrary.appendElement(`particle${id}.img`, <any>{
+    this.animationLibrary.appendElement(`particle${id}.img`, <ImgSettings>{
       type: Types.ShapesImg,
       url: 'https://pics.clipartpng.com/Tropical_Flower_PNG_Clipart-194.png',
       width: size,

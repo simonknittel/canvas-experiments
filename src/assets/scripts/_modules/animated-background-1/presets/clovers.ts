@@ -116,13 +116,13 @@ export default class Clovers implements Config {
     const size = large ? 100 : 50
     const xAxis = this.columnWidth * particleId - this.columnWidth / 2
 
-    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <TranslateSettings>{
       type: Types.AnimationsTranslate,
       start: [ xAxis - size / 2, - size / 2 ],
       childrenKeys: [`row${rowId}.particle${particleId}.rotate`],
     })
 
-    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.rotate`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.rotate`, <RotateSettings>{
       type: Types.AnimationsRotate,
       origin: [ size / 2, size / 2 ],
       end: large ? Math.PI * 2 : -Math.PI * 2,
@@ -132,7 +132,7 @@ export default class Clovers implements Config {
       childrenKeys: [`row${rowId}.particle${particleId}.img`],
     })
 
-    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.img`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.img`, <ImgSettings>{
       type: Types.ShapesImg,
       url: 'https://webstockreview.net/images/clover-clipart-14.png',
       width: size,

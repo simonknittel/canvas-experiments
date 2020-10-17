@@ -7,6 +7,7 @@ export default class Rotate extends AnimationElement {
 
   loop: number
   loopCount: number
+  loopCallback: Function | undefined
 
   timingFunction: TimingFunctions
   duration: number
@@ -70,6 +71,11 @@ export default class Rotate extends AnimationElement {
           (current, elapsedTime, reset) => {
             this.current = reset ? this.start : current
             this.elapsedTime = reset ? 0 : elapsedTime
+
+            if (reset) {
+              this.loopCount++
+              if (typeof this.loopCallback === 'function') this.loopCallback()
+            }
           },
           this.timingFunction,
         )

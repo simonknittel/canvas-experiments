@@ -61,6 +61,7 @@ declare global {
     start?: [number, number]
     end?: [number, number]
     loop?: [number, number]
+    loopCallback?: [Function, Function]
     timingFunction?: [TimingFunctions, TimingFunctions]
     duration?: [number, number]
     origin?: [number, number]
