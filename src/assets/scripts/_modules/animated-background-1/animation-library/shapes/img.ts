@@ -1,10 +1,3 @@
-export interface ImgSettings extends ShapeSettings {
-  url: string
-  width: number
-  height: number
-  transparency?: number
-}
-
 export default class Img {
   ctx
 

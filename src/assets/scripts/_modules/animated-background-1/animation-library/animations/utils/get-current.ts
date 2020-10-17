@@ -8,7 +8,7 @@ function getSpeed(
   progress: number,
   duration: number,
   timeDelta: number,
-  timingFunction?: TimingFunction
+  timingFunction?: TimingFunctions
 ) {
   let base = totalDistance / duration * timeDelta
 
@@ -25,6 +25,10 @@ function getSpeed(
   return base + getBoost()
 }
 
+interface Callback {
+  (current: number, elapsedTime: number, reset?: boolean): void
+}
+
 export default function getCurrent(
   start: number,
   end: number,
@@ -32,7 +36,8 @@ export default function getCurrent(
   timeDelta: number,
   duration: number,
   elapsedTime: number,
-  timingFunction?: TimingFunction
+  cb: Callback,
+  timingFunction?: TimingFunctions,
 ) {
   const totalDistance = Math.abs(end - start)
   const progress = elapsedTime / duration
@@ -43,9 +48,8 @@ export default function getCurrent(
     current -= getSpeed(totalDistance, progress, duration, timeDelta, timingFunction)
   }
 
-  // Reset if end has been reached
-  if (progress >= 1) // eslint-disable-line curly
-    return { current: start, elapsedTime: 0 } // eslint-disable-line object-property-newline
+  if (progress >= 1)
+    return cb(current, elapsedTime, true)
 
-  return { current, elapsedTime } // eslint-disable-line object-property-newline
+  return cb(current, elapsedTime)
 }

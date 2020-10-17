@@ -16,7 +16,7 @@ export default class AnimationElement extends Element {
     super(canvas, ctx, allElements)
 
     this.animate = settings.animate || false
-    this.childrenKeys = settings.children
+    this.childrenKeys = settings.childrenKeys
 
     this.getCurrent = getCurrent
   }

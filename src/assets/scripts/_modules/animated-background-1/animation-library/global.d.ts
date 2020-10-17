@@ -1,14 +1,13 @@
 import AnimationLibrary from ".";
-import Rotate, { RotateSettings } from "./animations/rotate";
-import Scale, { ScaleSettings } from "./animations/scale";
-import Translate, { TranslateSettings } from "./animations/translate";
-import Element from "./element";
-import Box, { BoxSettings } from "./shapes/box";
-import Img, { ImgSettings } from "./shapes/img";
-import Text, { TextSettings } from "./shapes/text";
+import Rotate from "./animations/rotate";
+import Scale from "./animations/scale";
+import Translate from "./animations/translate";
+import Box from "./shapes/box";
+import Img from "./shapes/img";
+import Text from "./shapes/text";
 
 declare global {
-  const enum TimingFunction {
+  const enum TimingFunctions {
     Sin = 'sin',
     Cos = 'cos'
   }
@@ -37,10 +36,57 @@ declare global {
 
   interface AnimationSettings extends BaseSettings {
     animate?: boolean
-    children?: string[]
+    childrenKeys?: string[]
+  }
+
+  interface RotateSettings extends AnimationSettings {
+    start?: number
+    end?: number
+    loop?: number
+    timingFunction: TimingFunctions
+    duration?: number
+    origin?: [number, number]
+  }
+
+  interface ScaleSettings extends AnimationSettings {
+    start?: [number, number]
+    end: [number, number]
+    loop?: [number, number]
+    timingFunction?: [TimingFunctions, TimingFunctions]
+    duration?: [number, number]
+    origin?: [number, number]
+  }
+
+  interface TranslateSettings extends AnimationSettings {
+    start?: [number, number]
+    end?: [number, number]
+    loop?: [number, number]
+    timingFunction?: [TimingFunctions, TimingFunctions]
+    duration?: [number, number]
+    origin?: [number, number]
+    local?: boolean
   }
 
   interface ShapeSettings extends BaseSettings {}
+
+  interface BoxSettings extends ShapeSettings {
+    width?: number
+    height?: number
+    fillStyle?: string
+    transparency?: number
+  }
+
+  interface ImgSettings extends ShapeSettings {
+    url: string
+    width: number
+    height: number
+    transparency?: number
+  }
+
+  interface TextSettings extends ShapeSettings {
+    font: string
+    text: string
+  }
 
   type Settings =
     | BaseSettings

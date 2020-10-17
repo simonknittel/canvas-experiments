@@ -1,6 +1,3 @@
-import { ScaleSettings } from './animations/scale';
-import { TranslateSettings } from './animations/translate';
-
 export default class ElementsInitializer {
   elements: ElementCollection
   ctx

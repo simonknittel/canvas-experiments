@@ -1,10 +1,3 @@
-export interface BoxSettings extends ShapeSettings {
-  width?: number
-  height?: number
-  fillStyle?: string
-  transparency?: number
-}
-
 export default class Box {
   ctx
 

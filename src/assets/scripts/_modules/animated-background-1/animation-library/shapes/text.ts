@@ -1,8 +1,3 @@
-export interface TextSettings extends ShapeSettings {
-  font: string
-  text: string
-}
-
 export default class Text {
   ctx
 

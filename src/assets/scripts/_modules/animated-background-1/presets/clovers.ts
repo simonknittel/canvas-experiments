@@ -77,7 +77,8 @@ export default class Clovers implements Config {
       end: [ 0, -100 ],
       duration: [ this.duration, this.duration ],
       animate: true,
-      children: [
+      loop: [ Infinity, Infinity ],
+      childrenKeys: [
         `row${rowId}.particle1.translate`,
         `row${rowId}.particle2.translate`,
         `row${rowId}.particle3.translate`,
@@ -118,7 +119,7 @@ export default class Clovers implements Config {
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <any>{
       type: Types.AnimationsTranslate,
       start: [ xAxis - size / 2, - size / 2 ],
-      children: [`row${rowId}.particle${particleId}.rotate`],
+      childrenKeys: [`row${rowId}.particle${particleId}.rotate`],
     })
 
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.rotate`, <any>{
@@ -127,7 +128,8 @@ export default class Clovers implements Config {
       end: large ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
-      children: [`row${rowId}.particle${particleId}.img`],
+      loop: Infinity,
+      childrenKeys: [`row${rowId}.particle${particleId}.img`],
     })
 
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.img`, <any>{

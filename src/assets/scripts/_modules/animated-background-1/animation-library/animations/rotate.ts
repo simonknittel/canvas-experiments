@@ -1,19 +1,14 @@
 import AnimationElement from './animation-element'
 
-export interface RotateSettings extends AnimationSettings {
-  start?: number
-  end?: number
-  timingFunction: TimingFunction
-  duration?: number
-  origin?: [number, number]
-}
-
 export default class Rotate extends AnimationElement {
   start: number
   current: number
   end: number
 
-  timingFunction: TimingFunction
+  loop: number
+  loopCount: number
+
+  timingFunction: TimingFunctions
   duration: number
   elapsedTime: number
 
@@ -30,6 +25,9 @@ export default class Rotate extends AnimationElement {
     this.start = settings.start || 0
     this.current = this.start
     this.end = settings.end || Math.PI * 2
+
+    this.loop = settings.loop || 0
+    this.loopCount = -1
 
     this.timingFunction = settings.timingFunction
     this.duration = settings.duration || 1000
@@ -61,17 +59,21 @@ export default class Rotate extends AnimationElement {
     if (this.animate) {
       this.elapsedTime += timeDelta
 
-      const rtn = this.getCurrent(
-        this.start,
-        this.end,
-        this.current,
-        timeDelta,
-        this.duration,
-        this.elapsedTime,
-        this.timingFunction,
-      )
-      this.current = rtn.current
-      this.elapsedTime = rtn.elapsedTime
+      if (this.loopCount < this.loop) {
+        this.getCurrent(
+          this.start,
+          this.end,
+          this.current,
+          timeDelta,
+          this.duration,
+          this.elapsedTime,
+          (current, elapsedTime, reset) => {
+            this.current = reset ? this.start : current
+            this.elapsedTime = reset ? 0 : elapsedTime
+          },
+          this.timingFunction,
+        )
+      }
     }
 
     this.ctx.rotate(this.current)

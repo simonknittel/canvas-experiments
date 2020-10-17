@@ -15,8 +15,8 @@ export default class Dummy implements Config {
         start: [ 'canvas.width + 200', 400 ],
         end: [ -200, 400 ],
         duration: [ 1000, 1000 ],
-        timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
-        children: ['bouncyBoi.scale1'],
+        timingFunction: [ TimingFunctions.Cos, TimingFunctions.Cos ],
+        childrenKeys: ['bouncyBoi.scale1'],
         root: true,
       },
 
@@ -26,15 +26,15 @@ export default class Dummy implements Config {
         end: [ 2, 2 ],
         duration: [ 500, 500 ],
         origin: [ 50, 50 ],
-        timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
-        children: ['bouncyBoi.scale1.rotate1'],
+        timingFunction: [ TimingFunctions.Cos, TimingFunctions.Cos ],
+        childrenKeys: ['bouncyBoi.scale1.rotate1'],
       },
 
       'bouncyBoi.scale1.rotate1': <any>{
         type: Types.AnimationsRotate,
         animate: true,
         origin: [ 50, 50 ],
-        children: ['bouncyBoi.scale1.rotate1.box1'],
+        childrenKeys: ['bouncyBoi.scale1.rotate1.box1'],
       },
 
       'bouncyBoi.scale1.rotate1.box1': <any>{
@@ -49,7 +49,7 @@ export default class Dummy implements Config {
         start: [ 0, -400 ],
         end: [ 'canvas.width', 'canvas.height + 400' ],
         duration: [ 5000, 5000 ],
-        children: ['bigBoi.rotate1'],
+        childrenKeys: ['bigBoi.rotate1'],
         root: true,
       },
 
@@ -58,7 +58,7 @@ export default class Dummy implements Config {
         animate: true,
         origin: [ 150, 150 ],
         duration: 5000,
-        children: ['bigBoi.rotate1.scale1'],
+        childrenKeys: ['bigBoi.rotate1.scale1'],
       },
 
       'bigBoi.rotate1.scale1': <any>{
@@ -67,8 +67,8 @@ export default class Dummy implements Config {
         end: [ 1, 2 ],
         duration: [ 500, 500 ],
         origin: [ 150, 150 ],
-        timingFunction: [ TimingFunction.Cos, TimingFunction.Cos ],
-        children: ['bigBoi.rotate1.scale1.box1'],
+        timingFunction: [ TimingFunctions.Cos, TimingFunctions.Cos ],
+        childrenKeys: ['bigBoi.rotate1.scale1.box1'],
       },
 
       'bigBoi.rotate1.scale1.box1': <any>{
@@ -80,7 +80,7 @@ export default class Dummy implements Config {
       staticBoi: <any>{
         type: Types.AnimationsTranslate,
         start: [ 'canvas.width - 300', 100 ],
-        children: ['staticBoi.rotate1'],
+        childrenKeys: ['staticBoi.rotate1'],
         root: true,
       },
 
@@ -88,7 +88,7 @@ export default class Dummy implements Config {
         type: Types.AnimationsRotate,
         origin: [ 100, 50 ],
         start: Math.PI / 4,
-        children: ['staticBoi.rotate1.box1'],
+        childrenKeys: ['staticBoi.rotate1.box1'],
       },
 
       'staticBoi.rotate1.box1': <any>{
@@ -103,7 +103,7 @@ export default class Dummy implements Config {
         start: [ 100, 'canvas.height' ],
         end: [ 'canvas.width', -200 ],
         duration: [ 3000, 3000 ],
-        children: ['textBoi.rotate1'],
+        childrenKeys: ['textBoi.rotate1'],
         root: true,
       },
 
@@ -112,7 +112,7 @@ export default class Dummy implements Config {
         animate: true,
         origin: [ 100, 50 ],
         duration: 750,
-        children: ['textBoi.rotate1.text1'],
+        childrenKeys: ['textBoi.rotate1.text1'],
       },
 
       'textBoi.rotate1.text1': <any>{

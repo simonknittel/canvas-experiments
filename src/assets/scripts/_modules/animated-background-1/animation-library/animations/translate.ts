@@ -1,20 +1,14 @@
 import AnimationElement from './animation-element'
 
-export interface TranslateSettings extends AnimationSettings {
-  start?: [number, number]
-  end?: [number, number]
-  timingFunction?: [TimingFunction, TimingFunction]
-  duration?: [number, number]
-  origin?: [number, number]
-  local?: boolean
-}
-
 export default class Translate extends AnimationElement {
   start: [number, number]
   current: [number, number]
   end: [number, number]
 
-  timingFunction: [TimingFunction, TimingFunction] | []
+  loop: [number, number]
+  loopCount: [number, number]
+
+  timingFunction: [TimingFunctions, TimingFunctions] | []
   duration: [number, number]
   elapsedTime: [number, number]
 
@@ -31,6 +25,9 @@ export default class Translate extends AnimationElement {
     this.start = settings.start || [ 0, 0 ]
     this.current = [ ...this.start ]
     this.end = settings.end
+
+    this.loop = settings.loop || [ 0, 0 ]
+    this.loopCount = [ -1, -1 ]
 
     this.timingFunction = settings.timingFunction || []
     this.duration = settings.duration || [ 1000, 1000 ]
@@ -56,30 +53,40 @@ export default class Translate extends AnimationElement {
       ]
 
       // X
-      const rtn0 = this.getCurrent(
-        this.start[0],
-        this.end[0],
-        this.current[0],
-        timeDelta,
-        this.duration[0],
-        this.elapsedTime[0],
-        this.timingFunction[0],
-      )
-      this.current[0] = rtn0.current
-      this.elapsedTime[0] = rtn0.elapsedTime
+      if (this.loopCount[0] < this.loop[0]) {
+        this.getCurrent(
+          this.start[0],
+          this.end[0],
+          this.current[0],
+          timeDelta,
+          this.duration[0],
+          this.elapsedTime[0],
+          (current, elapsedTime, reset) => {
+            this.current[0] = reset ? this.start[0] : current
+            this.elapsedTime[0] = reset ? 0 : elapsedTime
+            if (reset) this.loopCount[0]++
+          },
+          this.timingFunction[0],
+        )
+      }
 
       // Y
-      const rtn1 = this.getCurrent(
-        this.start[1],
-        this.end[1],
-        this.current[1],
-        timeDelta,
-        this.duration[1],
-        this.elapsedTime[1],
-        this.timingFunction[1],
-      )
-      this.current[1] = rtn1.current
-      this.elapsedTime[1] = rtn1.elapsedTime
+      if (this.loopCount[1] < this.loop[1]) {
+        this.getCurrent(
+          this.start[1],
+          this.end[1],
+          this.current[1],
+          timeDelta,
+          this.duration[1],
+          this.elapsedTime[1],
+          (current, elapsedTime, reset) => {
+            this.current[1] = reset ? this.start[1] : current
+            this.elapsedTime[1] = reset ? 0 : elapsedTime
+            if (reset) this.loopCount[1]++
+          },
+          this.timingFunction[1],
+        )
+      }
     }
 
     this.ctx.translate(this.current[0], this.current[1])
