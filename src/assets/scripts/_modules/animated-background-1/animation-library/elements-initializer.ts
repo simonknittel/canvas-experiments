@@ -97,4 +97,8 @@ export default class ElementsInitializer {
     this.populateElementConfig(key)
     this.createInstance(key)
   }
+
+  destroyElement(key: string) {
+    delete this.elements[key]
+  }
 }

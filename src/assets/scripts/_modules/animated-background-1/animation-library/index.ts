@@ -34,6 +34,12 @@ export default class AnimationLibrary {
     this.rootElements = this.elementsInitializer.getRootElements()
   }
 
+  destroyElement(key: string) {
+    if (!this.elementsInitializer) return
+    this.elementsInitializer.destroyElement(key)
+    this.rootElements = this.elementsInitializer.getRootElements()
+  }
+
   resizeCanvas() {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight

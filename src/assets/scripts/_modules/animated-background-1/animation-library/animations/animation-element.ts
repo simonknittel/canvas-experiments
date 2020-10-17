@@ -24,7 +24,12 @@ export default class AnimationElement extends Element {
   updateChildren(timeDelta: number) {
     this.childrenKeys.forEach(childKey => {
       const child = this.allElements[childKey]
-      if (!child.initializedInstance) return
+
+      if (
+        !child
+        || !child.initializedInstance
+      ) return
+
       child.initializedInstance.update(timeDelta)
     })
   }
