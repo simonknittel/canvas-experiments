@@ -22,39 +22,39 @@ export default class ElementsInitializer {
   }
 
   initialize(key: string) {
-    this.populateElementConfig(key)
+    // this.populateElementConfig(key)
     this.createInstance(key)
   }
 
-  populateElementConfig(key: string) {
-    const config = this.elements[key]
+  // populateElementConfig(key: string) {
+  //   const config = this.elements[key]
 
-    if ([
-      'animations/translate',
-      'animations/scale',
-    ].indexOf(config.type) >= 0) {
-      if ('start' in config) {
-        const c = config as ScaleSettings | TranslateSettings
-        if (Array.isArray(c.start)) {
-          c.start = <[number, number]>c.start.map(this.replaceValue.bind(this))
-        }
-      }
+  //   if ([
+  //     'animations/translate',
+  //     'animations/scale',
+  //   ].indexOf(config.type) >= 0) {
+  //     if ('start' in config) {
+  //       const c = config as ScaleSettings | TranslateSettings
+  //       if (Array.isArray(c.start)) {
+  //         c.start = <[number, number]>c.start.map(this.replaceValue.bind(this))
+  //       }
+  //     }
 
-      if ('end' in config) {
-        const c = config as ScaleSettings | TranslateSettings
-        if (Array.isArray(c.end)) {
-          c.end = <[number, number]>c.end.map(this.replaceValue.bind(this))
-        }
-      }
+  //     if ('end' in config) {
+  //       const c = config as ScaleSettings | TranslateSettings
+  //       if (Array.isArray(c.end)) {
+  //         c.end = <[number, number]>c.end.map(this.replaceValue.bind(this))
+  //       }
+  //     }
 
-      if ('duration' in config) {
-        const c = config as ScaleSettings | TranslateSettings
-        if (Array.isArray(c.duration)) {
-          c.duration = <[number, number]>c.duration.map(this.replaceValue.bind(this))
-        }
-      }
-    }
-  }
+  //     if ('duration' in config) {
+  //       const c = config as ScaleSettings | TranslateSettings
+  //       if (Array.isArray(c.duration)) {
+  //         c.duration = <[number, number]>c.duration.map(this.replaceValue.bind(this))
+  //       }
+  //     }
+  //   }
+  // }
 
   replaceValue(value: string): number {
     if (typeof value === 'number') return value
@@ -94,7 +94,7 @@ export default class ElementsInitializer {
 
   appendElement(key: string, config: Settings) {
     this.elements[key] = config
-    this.populateElementConfig(key)
+    // this.populateElementConfig(key)
     this.createInstance(key)
   }
 

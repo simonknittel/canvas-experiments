@@ -52,7 +52,7 @@ export default class AnimationLibrary {
   }
 
   draw() {
-    this.prevTime = new Date().getTime()
+    this.prevTime = window.performance.now()
 
     this.elementsInitializer = new ElementsInitializer(this.config.elements, this.ctx, this.canvas)
     this.rootElements = this.elementsInitializer.getRootElements()
@@ -64,7 +64,7 @@ export default class AnimationLibrary {
   }
 
   drawLoop() {
-    const now = new Date().getTime()
+    const now = window.performance.now()
     const timeDelta = now - this.prevTime
 
     for (const key in this.rootElements) {

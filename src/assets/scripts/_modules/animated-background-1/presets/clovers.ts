@@ -15,7 +15,7 @@ export default class Clovers implements Config {
   timeoutInterval: number
   columnWidth: number
 
-  constructor(animationLibrary: AnimationLibrary) {
+  constructor (animationLibrary: AnimationLibrary) {
     this.animationLibrary = animationLibrary
     this.animated = true
 
@@ -28,6 +28,7 @@ export default class Clovers implements Config {
   initialized() {
     this.reset()
     this.generateBackground()
+    this.generateFPSCounter()
     this.boundGenerateRowOfParticles()
   }
 
@@ -48,14 +49,57 @@ export default class Clovers implements Config {
 
           ctx.save()
 
-          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
-          gradient.addColorStop(0, '#94d1a5')
-          gradient.addColorStop(1, '#94d1a5')
-
-          ctx.fillStyle = gradient
+          ctx.fillStyle = '#94d1a5'
           ctx.fillRect(0, 0, canvas.width, canvas.height)
 
           ctx.restore()
+        }
+      },
+      root: true
+    })
+  }
+
+  generateFPSCounter() {
+    this.animationLibrary.appendElement('fps', <any>{
+      type: 'custom',
+      class: class FPS extends Element {
+        skip: boolean
+        fps: number
+
+        constructor(
+          canvas: HTMLCanvasElement,
+          ctx: CanvasRenderingContext2D,
+          allElements: ElementCollection
+        ) {
+          super(canvas, ctx, allElements)
+
+          this.skip = false
+          setInterval(() => {
+            this.skip = false
+          }, 500)
+        }
+
+        update(timeDelta: number) {
+          if (!this.skip) {
+            this.calculateFPS(timeDelta)
+            this.skip = true
+          }
+
+          this.ctx.save()
+
+          this.ctx.fillStyle = '#000'
+          this.ctx.font = '16px sans-serif'
+          this.ctx.fillText(
+            this.fps.toString(),
+            10,
+            24,
+          )
+
+          this.ctx.restore()
+        }
+
+        calculateFPS(timeDelta: number) {
+          this.fps = Math.round(1000 / timeDelta)
         }
       },
       root: true
@@ -69,11 +113,11 @@ export default class Clovers implements Config {
 
     this.animationLibrary.appendElement(`row${rowId}`, <any>{
       type: Types.AnimationsTranslate,
-      start: [ 0, this.animationLibrary.canvas.height + 100 ],
-      end: [ 0, -100 ],
-      duration: [ this.duration, this.duration ],
+      start: [0, this.animationLibrary.canvas.height + 100],
+      end: [0, -100],
+      duration: [this.duration, this.duration],
       animate: true,
-      loop: [ Infinity, Infinity ],
+      loop: [Infinity, Infinity],
       childrenKeys: [
         `row${rowId}.particle1.translate`,
         `row${rowId}.particle2.translate`,
@@ -118,13 +162,13 @@ export default class Clovers implements Config {
 
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.translate`, <TranslateSettings>{
       type: Types.AnimationsTranslate,
-      start: [ xAxis - size / 2, - size / 2 ],
+      start: [xAxis - size / 2, - size / 2],
       childrenKeys: [`row${rowId}.particle${particleId}.rotate`],
     })
 
     this.animationLibrary.appendElement(`row${rowId}.particle${particleId}.rotate`, <RotateSettings>{
       type: Types.AnimationsRotate,
-      origin: [ size / 2, size / 2 ],
+      origin: [size / 2, size / 2],
       end: large ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
       animate: true,
