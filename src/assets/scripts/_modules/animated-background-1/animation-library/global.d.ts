@@ -45,6 +45,7 @@ declare global {
     end?: number
     loop?: number
     timingFunction: TimingFunctions
+    audioBoost?: boolean
     duration?: number
     origin?: [number, number]
   }
@@ -54,6 +55,7 @@ declare global {
     end: [number, number]
     loop?: [number, number]
     timingFunction?: [TimingFunctions, TimingFunctions]
+    audioBoost?: [boolean, boolean]
     duration?: [number, number]
     origin?: [number, number]
   }
@@ -64,6 +66,7 @@ declare global {
     loop?: [number, number]
     loopCallback?: [Function, Function]
     timingFunction?: [TimingFunctions, TimingFunctions]
+    audioBoost?: [boolean, boolean]
     duration?: [number, number]
     origin?: [number, number]
     local?: boolean

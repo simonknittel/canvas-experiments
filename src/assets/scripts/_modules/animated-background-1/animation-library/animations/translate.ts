@@ -12,6 +12,7 @@ export default class Translate extends AnimationElement {
   timingFunction: [TimingFunctions, TimingFunctions] | []
   duration: [number, number]
   elapsedTime: [number, number]
+  audioBoost: [boolean, boolean]
 
   local: boolean
 
@@ -34,6 +35,7 @@ export default class Translate extends AnimationElement {
     this.timingFunction = settings.timingFunction || []
     this.duration = settings.duration || [ 1000, 1000 ]
     this.elapsedTime = [ 0, 0 ]
+    this.audioBoost = settings.audioBoost || [ false, false ]
 
     this.local = settings.local || false
   }
@@ -80,6 +82,7 @@ export default class Translate extends AnimationElement {
           }
         },
         this.timingFunction[column],
+        this.audioBoost[column]
       )
     }
   }

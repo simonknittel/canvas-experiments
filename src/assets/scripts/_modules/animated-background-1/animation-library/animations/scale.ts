@@ -12,6 +12,7 @@ export default class Scale extends AnimationElement {
   timingFunction: [TimingFunctions, TimingFunctions] | []
   duration: [number, number]
   elapsedTime: [number, number]
+  audioBoost: [boolean, boolean]
 
   origin: [number, number]
 
@@ -33,6 +34,7 @@ export default class Scale extends AnimationElement {
     this.timingFunction = settings.timingFunction || []
     this.duration = settings.duration || [ 1000, 1000 ]
     this.elapsedTime = [ 0, 0 ]
+    this.audioBoost = settings.audioBoost || [ false, false ]
 
     this.origin = settings.origin || [ 0, 0 ]
   }
@@ -89,6 +91,7 @@ export default class Scale extends AnimationElement {
           }
         },
         this.timingFunction[column],
+        this.audioBoost[column]
       )
     }
   }

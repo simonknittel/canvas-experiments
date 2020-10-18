@@ -12,6 +12,7 @@ export default class Rotate extends AnimationElement {
   timingFunction: TimingFunctions
   duration: number
   elapsedTime: number
+  audioBoost: boolean
 
   origin: [number, number]
 
@@ -33,6 +34,7 @@ export default class Rotate extends AnimationElement {
     this.timingFunction = settings.timingFunction
     this.duration = settings.duration || 1000
     this.elapsedTime = 0
+    this.audioBoost = settings.audioBoost || false
 
     this.origin = settings.origin || [ 0, 0 ]
   }
@@ -78,6 +80,7 @@ export default class Rotate extends AnimationElement {
             }
           },
           this.timingFunction,
+          this.audioBoost
         )
       }
     }

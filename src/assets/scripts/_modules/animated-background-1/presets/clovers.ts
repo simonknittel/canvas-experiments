@@ -77,13 +77,14 @@ export default class Clovers implements Config {
 
     const rowId = this.generatedRows
 
-    this.animationLibrary.appendElement(`row${rowId}`, <any>{
+    this.animationLibrary.appendElement(`row${rowId}`, <TranslateSettings>{
       type: Types.AnimationsTranslate,
       start: [0, this.animationLibrary.canvas.height + 100],
       end: [0, -100],
       duration: [this.duration, this.duration],
       animate: true,
       loop: [Infinity, Infinity],
+      audioBoost: [false, true],
       childrenKeys: [
         `row${rowId}.particle1.translate`,
         `row${rowId}.particle2.translate`,
@@ -137,6 +138,7 @@ export default class Clovers implements Config {
       origin: [size / 2, size / 2],
       end: large ? Math.PI * 2 : -Math.PI * 2,
       duration: 10000,
+      audioBoost: false,
       animate: true,
       loop: Infinity,
       childrenKeys: [`row${rowId}.particle${particleId}.img`],
