@@ -19,6 +19,7 @@ declare global {
     ShapesBox = 'shapes/box',
     ShapesImg = 'shapes/img',
     ShapesText = 'shapes/text',
+    ElementsFPS = 'other/fps'
   }
 
   interface BaseSettings {
@@ -89,6 +90,8 @@ declare global {
     text: string
   }
 
+  interface FPSSettings extends BaseSettings {}
+
   type Settings =
     | BaseSettings
     | AnimationSettings
@@ -99,6 +102,7 @@ declare global {
     | BoxSettings
     | ImgSettings
     | TextSettings
+    | FPSSettings
 
   type ElementCollection = {
     [id: string]: Settings
