@@ -3,8 +3,7 @@ import { throttle } from 'lodash'
 import ElementsInitializer from './elements-initializer'
 
 export default class AnimationLibrary {
-  container
-  canvas: HTMLCanvasElement
+  canvas
   ctx
   config
 
@@ -14,9 +13,8 @@ export default class AnimationLibrary {
   prevTime: number
   animationFrame: number
 
-  constructor(container: HTMLElement, config: ConfigConstructor) {
-    this.container = container
-    this.canvas = this.container.querySelector('canvas')
+  constructor(canvas: HTMLCanvasElement, config: ConfigConstructor) {
+    this.canvas = canvas
     if (!this.canvas) return
 
     this.config = new config(this)

@@ -2,12 +2,14 @@ import AnimationLibrary from "./animation-library";
 import Clovers from "./presets/clovers";
 import Flowers from "./presets/flowers";
 
+const canvas = document.querySelector('canvas')
+
 switch (new window.URLSearchParams(window.location.search).get('preset')) {
   case 'flowers':
-    new AnimationLibrary(document.body, Flowers)
+    new AnimationLibrary(canvas, Flowers)
     break
 
   default:
-    new AnimationLibrary(document.body, Clovers)
+    new AnimationLibrary(canvas, Clovers)
     break
 }

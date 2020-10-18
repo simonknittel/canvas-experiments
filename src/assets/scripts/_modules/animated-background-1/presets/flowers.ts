@@ -66,7 +66,7 @@ export default class Flowers implements Config {
     const size = this.getRandomBetween(20, 150)
     const duration = this.getRandomBetween(10000, 20000)
 
-    this.animationLibrary.appendElement(`particle${id}`, <any>{
+    this.animationLibrary.appendElement(`particle${id}`, <TranslateSettings>{
       type: Types.AnimationsTranslate,
       start: [ xAxis, this.animationLibrary.canvas.height ],
       end: [ xAxis, -size ],
