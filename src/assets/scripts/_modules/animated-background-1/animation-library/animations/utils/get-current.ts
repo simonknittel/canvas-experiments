@@ -12,24 +12,29 @@ function handleSuccess(stream: MediaStream) {
 }
 
 navigator.permissions
-  .query({name:'microphone'})
+  .query({ name:'microphone' })
   .then(function(result) {
     if (result.state == 'granted') {
-      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      navigator.mediaDevices.getUserMedia({ audio: {
+        deviceId: "f0e5776245f968ee504347694f7fcaa148fb5aaf81d9ce858ceaee23055d947c" // VAIO Output
+      }, video: false })
         .then(handleSuccess)
     } else if (result.state == 'prompt') {
-      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      navigator.mediaDevices.getUserMedia({ audio: {
+        deviceId: "f0e5776245f968ee504347694f7fcaa148fb5aaf81d9ce858ceaee23055d947c" // VAIO Output
+      }, video: false })
         .then(handleSuccess)
     } else if (result.state == 'denied') {
       console.log('mic access blocked')
     }
 
     result.onchange = function() {
-      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      navigator.mediaDevices.getUserMedia({ audio: {
+        deviceId: "f0e5776245f968ee504347694f7fcaa148fb5aaf81d9ce858ceaee23055d947c" // VAIO Output
+      }, video: false })
         .then(handleSuccess)
     }
   })
-
 
 
 function getBoost() {
@@ -42,7 +47,9 @@ function getBoost() {
     total += dataArray[i]
   }
 
-  return total / (dataArray.length / 2 * 255)
+  const zeroToOne = total / (dataArray.length / 2 * 255)
+  // return Math.tan(zeroToOne)
+  return zeroToOne > .5 ? zeroToOne : 0
 }
 
 function getSpeed(
